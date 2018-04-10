@@ -1,6 +1,6 @@
 #pragma once
 
-#if __cplusplus < 201402L
+#if __cplusplus < 201402L && _MSC_VER < 1800
 
 // std includes
 #include <memory>
