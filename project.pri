@@ -24,8 +24,8 @@ contains(DBLIBS, core) {
 contains(DBLIBS, gui) {
     LIBS += -lzeiterfassungguilib
 
-    INCLUDEPATH += $$PWD/zeiterfassungguilib
-    DEPENDPATH += $$PWD/zeiterfassungguilib
+    INCLUDEPATH += $$PWD/zeiterfassungguilib $$PWD/zeiterfassungguilib/QStringListWidget
+    DEPENDPATH += $$PWD/zeiterfassungguilib $$PWD/zeiterfassungguilib/QStringListWidget
 }
 
 isEmpty(QMAKE_LRELEASE) {

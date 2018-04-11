@@ -2,7 +2,7 @@
 
 #include <QFormLayout>
 
-#include "QStringListWidget/qstringlistwidget.h"
+#include "qstringlistwidget.h"
 
 WebRadioSettingsWidget::WebRadioSettingsWidget(ZeiterfassungSettings &settings, QWidget *parent) :
     SettingsWidget(parent),
