@@ -20,6 +20,7 @@ PresenceSettingsWidget::PresenceSettingsWidget(ZeiterfassungSettings &settings, 
 
 bool PresenceSettingsWidget::isValid(QString &message) const
 {
+    Q_UNUSED(message)
     return true;
 }
 
