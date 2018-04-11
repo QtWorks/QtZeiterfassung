@@ -18,3 +18,5 @@ TRANSLATIONS += translations/sketchplugin_en.ts \
 OTHER_FILES += sketchplugin.json
 
 include(../plugin.pri)
+
+include(QtSketch/sketchlib.pri)
