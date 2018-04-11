@@ -3,18 +3,10 @@ QT += core network gui widgets uitools
 TARGET = zeiterfassungguilib
 TEMPLATE = lib
 
-CONFIG += c++14
-
 PROJECT_ROOT = ..
 
-DESTDIR = $${OUT_PWD}/$${PROJECT_ROOT}/bin
+DBLIBS += core
 
-LIBS += -L$$DESTDIR -lzeiterfassungcorelib
-
-INCLUDEPATH += $$PWD/$${PROJECT_ROOT}/zeiterfassungcorelib $$PWD/$${PROJECT_ROOT}/zeiterfassungguilib
-DEPENDPATH += $$PWD/$${PROJECT_ROOT}/zeiterfassungcorelib $$PWD/$${PROJECT_ROOT}/zeiterfassungguilib
-
-DEFINES += QT_DEPRECATED_WARNINGS QT_DISABLE_DEPRECATED_BEFORE=0x060000 QT_MESSAGELOGCONTEXT
 DEFINES += ZEITERFASSUNGGUILIB_LIBRARY
 
 SOURCES += mainwindow.cpp \
@@ -48,6 +40,6 @@ RESOURCES += zeiterfassungguilib_resources.qrc
 TRANSLATIONS +=  translations/zeiterfassungguilib_en.ts \
                  translations/zeiterfassungguilib_de.ts
 
-include($${PROJECT_ROOT}/lrelease.pri)
+include($${PROJECT_ROOT}/project.pri)
 
 include(QStringListWidget/QStringListWidget.pri)

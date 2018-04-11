@@ -1,20 +1,8 @@
 QT += core network gui widgets
 
 TARGET = updaterplugin
-TEMPLATE = lib
 
-CONFIG += shared c++14
-
-PROJECT_ROOT = ../..
-
-DESTDIR = $${OUT_PWD}/$${PROJECT_ROOT}/bin/plugins/zeiterfassung
-
-LIBS += -L$${OUT_PWD}/$${PROJECT_ROOT}/bin -lzeiterfassungcorelib -lzeiterfassungguilib
-
-INCLUDEPATH += $$PWD/$${PROJECT_ROOT}/zeiterfassungcorelib $$PWD/$${PROJECT_ROOT}/zeiterfassungguilib
-DEPENDPATH += $$PWD/$${PROJECT_ROOT}/zeiterfassungcorelib $$PWD/$${PROJECT_ROOT}/zeiterfassungguilib
-
-DEFINES += QT_DEPRECATED_WARNINGS QT_DISABLE_DEPRECATED_BEFORE=0x060000 QT_MESSAGELOGCONTEXT
+DBLIBS += core gui
 
 HEADERS += updaterdialog.h \
            updaterplugin.h \
@@ -35,4 +23,4 @@ TRANSLATIONS += translations/updaterplugin_en.ts \
 
 OTHER_FILES += updaterplugin.json
 
-include($${PROJECT_ROOT}/lrelease.pri)
+include(../plugin.pri)
