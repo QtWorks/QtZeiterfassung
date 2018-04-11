@@ -7,6 +7,7 @@ SUBDIRS += absenceplugin \
            profileplugin \
            presenceplugin \
            reportsplugin \
+           sketchplugin \
            updaterplugin \
            weatherplugin \
            webradioplugin
