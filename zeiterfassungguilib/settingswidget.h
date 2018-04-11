@@ -1,5 +1,4 @@
-#ifndef SETTINGSWIDGET_H
-#define SETTINGSWIDGET_H
+#pragma once
 
 #include <QObject>
 #include <QWidget>
@@ -18,5 +17,3 @@ public:
 public Q_SLOTS:
     virtual void apply() { }
 };
-
-#endif // SETTINGSWIDGET_H

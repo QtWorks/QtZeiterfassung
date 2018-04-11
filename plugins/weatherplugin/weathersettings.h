@@ -1,5 +1,4 @@
-#ifndef WEATHERSETTINGS_H
-#define WEATHERSETTINGS_H
+#pragma once
 
 #include <QObject>
 #include <QUrl>
@@ -26,5 +25,3 @@ private:
     static const QString m_url;
     static const QUrl m_defaultUrl;
 };
-
-#endif // WEATHERSETTINGS_H

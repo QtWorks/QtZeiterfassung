@@ -1,5 +1,4 @@
-#ifndef UPDATERSETTINGS_H
-#define UPDATERSETTINGS_H
+#pragma once
 
 #include <QObject>
 #include <QUrl>
@@ -33,5 +32,3 @@ private:
     static const QString m_lastUpdateCheck;
     static const QUrl m_defaultUrl;
 };
-
-#endif // UPDATERSETTINGS_H

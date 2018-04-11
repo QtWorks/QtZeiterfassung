@@ -1,5 +1,4 @@
-#ifndef LUNCHMEALSETTINGSWIDGET_H
-#define LUNCHMEALSETTINGSWIDGET_H
+#pragma once
 
 #include "settingswidget.h"
 
@@ -25,5 +24,3 @@ private:
     QLineEdit *m_lineEditUrl;
     QLineEdit *m_lineEditDateFormat;
 };
-
-#endif // LUNCHMEALSETTINGSWIDGET_H

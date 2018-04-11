@@ -1,5 +1,4 @@
-#ifndef WEBRADIOSETTINGSWIDGET_H
-#define WEBRADIOSETTINGSWIDGET_H
+#pragma once
 
 #include <QWidget>
 
@@ -28,5 +27,3 @@ private:
 
     QStringListWidget *m_urlsWidget;
 };
-
-#endif // WEBRADIOSETTINGSWIDGET_H

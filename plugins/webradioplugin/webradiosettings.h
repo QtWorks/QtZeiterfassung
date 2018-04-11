@@ -1,5 +1,4 @@
-#ifndef WEBRADIOSETTINGS_H
-#define WEBRADIOSETTINGS_H
+#pragma once
 
 #include <QObject>
 #include <QUrl>
@@ -39,5 +38,3 @@ private:
     static const QStringList m_defaultUrls;
     static const int m_defaultVolume;
 };
-
-#endif // WEBRADIOSETTINGS_H

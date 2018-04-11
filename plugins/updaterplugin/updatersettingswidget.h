@@ -1,5 +1,4 @@
-#ifndef UPDATERSETTINGSWIDGET_H
-#define UPDATERSETTINGSWIDGET_H
+#pragma once
 
 #include "settingswidget.h"
 
@@ -24,5 +23,3 @@ private:
 
     QLineEdit *m_lineEdit;
 };
-
-#endif // UPDATERSETTINGSWIDGET_H

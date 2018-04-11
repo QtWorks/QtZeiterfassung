@@ -1,5 +1,4 @@
-#ifndef PRESENCESETTINGS_H
-#define PRESENCESETTINGS_H
+#pragma once
 
 #include <QObject>
 
@@ -25,5 +24,3 @@ private:
     static const QString m_interval;
     static const int m_defaultInterval;
 };
-
-#endif // PRESENCESETTINGS_H

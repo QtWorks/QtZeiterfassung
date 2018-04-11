@@ -1,5 +1,4 @@
-#ifndef WEATHERSETTINGSWIDGET_H
-#define WEATHERSETTINGSWIDGET_H
+#pragma once
 
 #include <QWidget>
 
@@ -28,5 +27,3 @@ private:
 
     QLineEdit *m_lineEdit;
 };
-
-#endif // WEATHERSETTINGSWIDGET_H

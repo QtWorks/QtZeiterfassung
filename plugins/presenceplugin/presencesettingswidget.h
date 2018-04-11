@@ -1,5 +1,4 @@
-#ifndef PRESENCESETTINGSWIDGET_H
-#define PRESENCESETTINGSWIDGET_H
+#pragma once
 
 #include "settingswidget.h"
 
@@ -24,5 +23,3 @@ private:
 
     QSpinBox *m_spinBox;
 };
-
-#endif // PRESENCESETTINGSWIDGET_H

@@ -1,5 +1,4 @@
-#ifndef LUNCHMEALSETTINGS_H
-#define LUNCHMEALSETTINGS_H
+#pragma once
 
 #include <QObject>
 #include <QUrl>
@@ -34,5 +33,3 @@ private:
     static const QString m_defaultUrl;
     static const QString m_defaultDateFormat;
 };
-
-#endif // LUNCHMEALSETTINGS_H
