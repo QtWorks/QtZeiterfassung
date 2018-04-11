@@ -31,6 +31,7 @@
 struct {
     QTranslator qtTranslator;
     QTranslator zeiterfassungTranslator;
+    QTranslator zeiterfassungcorelibTranslator;
     QTranslator zeiterfassungguilibTranslator;
 } translators;
 
@@ -80,9 +81,10 @@ bool loadTranslations(QSplashScreen &splashScreen, ZeiterfassungSettings &settin
 
     QLocale::setDefault(QLocale(settings.language(), QLocale::Austria));
 
-    loadAndInstallTranslator(translators.qtTranslator,               QStringLiteral("qt"));
-    loadAndInstallTranslator(translators.zeiterfassungTranslator,    QStringLiteral("zeiterfassung"));
-    loadAndInstallTranslator(translators.zeiterfassungguilibTranslator, QStringLiteral("zeiterfassungguilib"));
+    loadAndInstallTranslator(translators.qtTranslator,                   QStringLiteral("qt"));
+    loadAndInstallTranslator(translators.zeiterfassungTranslator,        QStringLiteral("zeiterfassung"));
+    loadAndInstallTranslator(translators.zeiterfassungcorelibTranslator, QStringLiteral("zeiterfassungcorelib"));
+    loadAndInstallTranslator(translators.zeiterfassungguilibTranslator,  QStringLiteral("zeiterfassungguilib"));
 
     return true;
 }

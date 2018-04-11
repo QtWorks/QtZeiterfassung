@@ -38,8 +38,8 @@ FORMS += mainwindow.ui \
 
 RESOURCES += zeiterfassungguilib_resources.qrc
 
-TRANSLATIONS +=  translations/zeiterfassungguilib_en.ts \
-                 translations/zeiterfassungguilib_de.ts
+TRANSLATIONS += translations/zeiterfassungguilib_en.ts \
+                translations/zeiterfassungguilib_de.ts
 
 include($${PROJECT_ROOT}/project.pri)
 

@@ -54,7 +54,7 @@ FORMS +=
 
 RESOURCES +=
 
-TRANSLATIONS +=  translations/zeiterfassungcorelib_en.ts \
-                 translations/zeiterfassungcorelib_de.ts
+TRANSLATIONS += translations/zeiterfassungcorelib_en.ts \
+                translations/zeiterfassungcorelib_de.ts
 
 include($${PROJECT_ROOT}/project.pri)
