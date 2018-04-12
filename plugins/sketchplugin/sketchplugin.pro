@@ -4,11 +4,13 @@ TARGET = sketchplugin
 
 DBLIBS += core gui
 
-HEADERS += sketchplugin.h
+HEADERS += sketchmainwindow.h \
+           sketchplugin.h
 
-SOURCES += sketchplugin.cpp
+SOURCES += sketchmainwindow.cpp \
+           sketchplugin.cpp
 
-FORMS +=
+FORMS += sketchmainwindow.ui
 
 RESOURCES += sketchplugin_resources.qrc
 

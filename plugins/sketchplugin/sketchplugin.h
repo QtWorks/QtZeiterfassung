@@ -19,6 +19,9 @@ public:
     // ZeiterfassungPlugin interface
     void attachTo(MainWindow &mainWindow) Q_DECL_OVERRIDE;
 
+private Q_SLOTS:
+    void openWindow();
+
 private:
     QTranslator m_translator;
 };

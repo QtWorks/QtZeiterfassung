@@ -8,6 +8,7 @@
 #include <QAction>
 
 #include "mainwindow.h"
+#include "sketchmainwindow.h"
 
 SketchPlugin::SketchPlugin(QObject *parent) :
     ZeiterfassungPlugin(parent)
@@ -31,5 +32,13 @@ SketchPlugin::SketchPlugin(QObject *parent) :
 
 void SketchPlugin::attachTo(MainWindow &mainWindow)
 {
-    mainWindow.menuTools()->addAction(QIcon(QStringLiteral(":/zeiterfassung/plugins/sketchplugin/images/sketch.png")), tr("Open Sketch viewer"));
+    mainWindow.menuTools()->addAction(QIcon(QStringLiteral(":/zeiterfassung/plugins/sketchplugin/images/sketch.png")), tr("Open Sketch viewer"),
+                                      this, &SketchPlugin::openWindow);
+}
+
+void SketchPlugin::openWindow()
+{
+    auto window = new SketchMainWindow;
+    window->setAttribute(Qt::WA_DeleteOnClose);
+    window->show();
 }
