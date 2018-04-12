@@ -14,6 +14,9 @@ class Q_DECL_EXPORT FavoritesPlugin : public ZeiterfassungPlugin
 public:
     explicit FavoritesPlugin(QObject *parent = Q_NULLPTR);
 
+    // ZeiterfassungPlugin interface
+    void attachTo(MainWindow &mainWindow) Q_DECL_OVERRIDE;
+
 private:
     QTranslator m_translator;
 };

@@ -5,6 +5,8 @@
 #include <QCoreApplication>
 #include <QLocale>
 
+#include "mainwindow.h"
+
 FavoritesPlugin::FavoritesPlugin(QObject *parent) :
     ZeiterfassungPlugin(parent)
 {
@@ -23,4 +25,9 @@ FavoritesPlugin::FavoritesPlugin(QObject *parent) :
     {
         qWarning() << "could not load translation favoritesplugin";
     }
+}
+
+void FavoritesPlugin::attachTo(MainWindow &mainWindow)
+{
+    mainWindow.addToolBar(tr("Favorites"));
 }
