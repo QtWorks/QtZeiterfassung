@@ -15,6 +15,9 @@ public:
     explicit SketchMainWindow(QWidget *parent = 0);
     ~SketchMainWindow();
 
+private Q_SLOTS:
+    void openPressed();
+
 private:
     Ui::SketchMainWindow *ui;
 };
