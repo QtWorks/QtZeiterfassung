@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/zeiterfassung/plugins/sketchplugin">
+        <file>images/sketch.png</file>
+    </qresource>
+</RCC>
