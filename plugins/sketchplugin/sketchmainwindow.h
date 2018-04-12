@@ -19,6 +19,8 @@ private Q_SLOTS:
     void openPressed();
 
 private:
+    void load(const QString &filename);
+
     Ui::SketchMainWindow *ui;
 };
 
