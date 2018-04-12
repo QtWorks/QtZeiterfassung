@@ -35,7 +35,6 @@ public:
     QMenu *menuView() const;
     QMenu *menuTools() const;
     QMenu *menuAbout() const;
-    QToolBar *toolBar() const;
 
     ZeiterfassungSettings &settings() const;
     ZeiterfassungApi &erfassung() const;

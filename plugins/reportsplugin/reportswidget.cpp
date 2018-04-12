@@ -34,8 +34,6 @@ ReportsWidget::ReportsWidget(MainWindow &mainWindow) :
     connect(m_actionOpenReport, &QAction::triggered, this, &ReportsWidget::openReport);
     m_mainWindow.menuTools()->addAction(m_actionOpenReport);
 
-    m_mainWindow.toolBar()->addAction(m_actionOpenReport);
-
     dateChanged(m_mainWindow.date());
 }
 

@@ -124,11 +124,6 @@ QMenu *MainWindow::menuAbout() const
     return ui->menuAbout;
 }
 
-QToolBar *MainWindow::toolBar() const
-{
-    return ui->mainToolBar;
-}
-
 ZeiterfassungSettings &MainWindow::settings() const
 {
     return m_settings;

@@ -211,7 +211,7 @@
          <x>0</x>
          <y>0</y>
          <width>1393</width>
-         <height>428</height>
+         <height>467</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="layoutWeek"/>
@@ -261,16 +261,6 @@
    <addaction name="menuView"/>
    <addaction name="menuTools"/>
    <addaction name="menuAbout"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionToday"/>
-   <addaction name="actionRefresh"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionQuit">
