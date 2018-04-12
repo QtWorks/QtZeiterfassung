@@ -4,6 +4,10 @@
 #include <QDir>
 #include <QCoreApplication>
 #include <QLocale>
+#include <QMenu>
+#include <QAction>
+
+#include "mainwindow.h"
 
 SketchPlugin::SketchPlugin(QObject *parent) :
     ZeiterfassungPlugin(parent)
@@ -23,4 +27,9 @@ SketchPlugin::SketchPlugin(QObject *parent) :
     {
         qWarning() << "could not load translation sketchplugin";
     }
+}
+
+void SketchPlugin::attachTo(MainWindow &mainWindow)
+{
+    mainWindow.menuTools()->addAction(QIcon(QStringLiteral(":/zeiterfassung/plugins/sketchplugin/images/sketch.png")), tr("Open Sketch viewer"));
 }

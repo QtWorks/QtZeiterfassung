@@ -16,6 +16,9 @@ class Q_DECL_EXPORT SketchPlugin : public ZeiterfassungPlugin
 public:
     explicit SketchPlugin(QObject *parent = Q_NULLPTR);
 
+    // ZeiterfassungPlugin interface
+    void attachTo(MainWindow &mainWindow) Q_DECL_OVERRIDE;
+
 private:
     QTranslator m_translator;
 };
