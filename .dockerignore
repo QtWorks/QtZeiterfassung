@@ -1,0 +1,7 @@
+/.gitignore
+/.gitmodules
+/.travis.yml
+/Dockerfile
+/LICENSE
+/README.md
+/screenshot.png

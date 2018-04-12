@@ -37,4 +37,6 @@ RUN apt update \
 
 COPY --from=0 /tmp/build_QtZeiterfassung/bin /root/bin
 
-CMD /root/bin/zeiterfassung.sh
+COPY --from=0 /tmp/build_QtZeiterfassung/lib /root/lib
+
+CMD /root/bin/zeiterfassung
