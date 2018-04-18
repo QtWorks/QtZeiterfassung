@@ -213,7 +213,9 @@ void MainWindow::pushButtonStartPressed()
     }
 
     if(m_currentStripWidget->bookings().rbegin() == m_currentStripWidget->bookings().rend() ||
-       m_currentStripWidget->bookings().rbegin()->type == QStringLiteral("G"))
+       m_currentStripWidget->bookings().rbegin()->type == QStringLiteral("G") ||
+       m_currentStripWidget->bookings().rbegin()->type == QStringLiteral("GA") ||
+       m_currentStripWidget->bookings().rbegin()->type == QStringLiteral("GM"))
     {
         auto reply = m_erfassung.doCreateBooking(m_userInfo.userId, ui->dateEditDate->date(),
                                                  timeNormalise(ui->timeEditTime->time()), QTime(0, 0),

@@ -85,8 +85,8 @@ private:
     void invalidateValues();    
     QString buildProjectString(const QString &project) const;
 
-    QWidget *appendBookingStartStrip(int id, const QTime &time);
-    QWidget *appendBookingEndStrip(int id, const QTime &time, const QTime &duration);
+    QWidget *appendBookingStartStrip(int id, const QTime &time, const QString &type);
+    QWidget *appendBookingEndStrip(int id, const QTime &time, const QTime &duration, const QString &type);
     QWidget *appendTimeAssignmentStrip(int id, const QTime &duration, const QString &project, const QString &subproject,
                                        const QString &workpackage, const QString &text);
 

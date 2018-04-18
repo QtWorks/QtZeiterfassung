@@ -298,7 +298,9 @@ bool StripsWidget::createStrips()
         }
 
         auto startBooking = *bookingsIter++;
-        if(startBooking.type != QStringLiteral("K"))
+        if(startBooking.type != QStringLiteral("K") &&
+           startBooking.type != QStringLiteral("KA") &&
+           startBooking.type != QStringLiteral("KM"))
         {
             errorMessage = tr("Expected start booking, instead got type %0\nBooking ID: %1")
                     .arg(startBooking.type)
@@ -316,7 +318,7 @@ bool StripsWidget::createStrips()
         lastBooking = &startBooking;
 
         lastTimeAssignmentStart = startBooking.time;
-        appendBookingStartStrip(startBooking.id, startBooking.time);
+        appendBookingStartStrip(startBooking.id, startBooking.time, startBooking.type);
 
         if(timeAssignmentsIter == m_timeAssignments.constEnd())
         {
@@ -397,7 +399,9 @@ bool StripsWidget::createStrips()
             else
             {
                 auto endBooking = *bookingsIter++;
-                if(endBooking.type != QStringLiteral("G"))
+                if(endBooking.type != QStringLiteral("G") &&
+                   endBooking.type != QStringLiteral("GA") &&
+                   endBooking.type != QStringLiteral("GM"))
                 {
                     errorMessage = tr("Expected end booking, instead got type %0\nBooking ID: %1")
                             .arg(endBooking.type)
@@ -418,7 +422,7 @@ bool StripsWidget::createStrips()
                         errorMessage = tr("Missing time assignment! Missing: %0")
                                 .arg(tr("%0h").arg(QLocale().toString(timeBetween(timeAssignmentTime, bookingTimespan), QLocale::ShortFormat)));
 
-                        appendBookingEndStrip(endBooking.id, endBooking.time, currBookingDuration);
+                        appendBookingEndStrip(endBooking.id, endBooking.time, currBookingDuration, endBooking.type);
 
                         goto after;
                     }
@@ -464,7 +468,7 @@ bool StripsWidget::createStrips()
                             .arg(QLocale().toString(bookingTimespan, QLocale::ShortFormat));
                 }
 
-                appendBookingEndStrip(endBooking.id, endBooking.time, currBookingDuration);
+                appendBookingEndStrip(endBooking.id, endBooking.time, currBookingDuration, endBooking.type);
 
                 if(timeAssignmentTime > bookingTimespan)
                     goto after;
@@ -593,7 +597,7 @@ QString StripsWidget::buildProjectString(const QString &project) const
     }
 }
 
-QWidget *StripsWidget::appendBookingStartStrip(int id, const QTime &time)
+QWidget *StripsWidget::appendBookingStartStrip(int id, const QTime &time, const QString &type)
 {
     auto widget = m_mainWindow.stripFactory().createBookingStartStrip(this).release();
 
@@ -601,6 +605,22 @@ QWidget *StripsWidget::appendBookingStartStrip(int id, const QTime &time)
         labelTime->setProperty("text", QLocale().toString(time, QLocale::ShortFormat));
     else
         qWarning() << "no labelTime found!";
+
+    if(type != QStringLiteral("K"))
+    {
+        QString textToAppend;
+        if(type == QStringLiteral("KA"))
+            textToAppend = tr("Doctor");
+        else if(type == QStringLiteral("KM"))
+            textToAppend = tr("Government");
+        else
+            textToAppend = tr("Unknown");
+
+        if(auto labelType = widget->findChild<QWidget*>(QStringLiteral("labelType")))
+            labelType->setProperty("text", QString(labelType->property("text").toString() % " (" % textToAppend % ')'));
+        else
+            qWarning() << "no labelType found!";
+    }
 
     if(auto labelId = widget->findChild<QWidget*>(QStringLiteral("labelId")))
         labelId->setProperty("text", QString::number(id));
@@ -612,7 +632,7 @@ QWidget *StripsWidget::appendBookingStartStrip(int id, const QTime &time)
     return widget;
 }
 
-QWidget *StripsWidget::appendBookingEndStrip(int id, const QTime &time, const QTime &duration)
+QWidget *StripsWidget::appendBookingEndStrip(int id, const QTime &time, const QTime &duration, const QString &type)
 {
     auto widget = m_mainWindow.stripFactory().createBookingEndStrip(this).release();
 
@@ -620,6 +640,22 @@ QWidget *StripsWidget::appendBookingEndStrip(int id, const QTime &time, const QT
         labelTime->setProperty("text", QLocale().toString(time, QLocale::ShortFormat));
     else
         qWarning() << "no labelTime found!";
+
+    if(type != QStringLiteral("G"))
+    {
+        QString textToAppend;
+        if(type == QStringLiteral("GA"))
+            textToAppend = tr("Doctor");
+        else if(type == QStringLiteral("GM"))
+            textToAppend = tr("Government");
+        else
+            textToAppend = tr("Unknown");
+
+        if(auto labelType = widget->findChild<QWidget*>(QStringLiteral("labelType")))
+            labelType->setProperty("text", QString(labelType->property("text").toString() % " (" % textToAppend % ')'));
+        else
+            qWarning() << "no labelType found!";
+    }
 
     if(auto labelDuration = widget->findChild<QWidget*>(QStringLiteral("labelDuration")))
         labelDuration->setProperty("text", tr("%0h").arg(QLocale().toString(duration, QLocale::ShortFormat)));
