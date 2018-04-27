@@ -12,5 +12,6 @@ zeiterfassungguilib.depends += zeiterfassungcorelib
 include(installs.pri)
 win32: include(installs_win32.pri)
 
-OTHER_FILES += .travis.yml \
+OTHER_FILES += .dockerignore \
+               .travis.yml \
                Dockerfile
