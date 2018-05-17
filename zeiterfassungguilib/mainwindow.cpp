@@ -59,8 +59,10 @@ MainWindow::MainWindow(ZeiterfassungSettings &settings, ZeiterfassungApi &erfass
     ui->dateEditDate->setDate(QDate::currentDate());
     connect(ui->dateEditDate, &QDateTimeEdit::dateChanged, this, &MainWindow::dateChangedSlot);
 
+    connect(ui->pushButtonPrevWeek, &QAbstractButton::pressed, this, [=](){ ui->dateEditDate->setDate(ui->dateEditDate->date().addDays(-7)); });
     connect(ui->pushButtonPrev, &QAbstractButton::pressed, this, [=](){ ui->dateEditDate->setDate(ui->dateEditDate->date().addDays(-1)); });
     connect(ui->pushButtonNext, &QAbstractButton::pressed, this, [=](){ ui->dateEditDate->setDate(ui->dateEditDate->date().addDays(1)); });
+    connect(ui->pushButtonNextWeek, &QAbstractButton::pressed, this, [=](){ ui->dateEditDate->setDate(ui->dateEditDate->date().addDays(7)); });
 
     connect(ui->timeEditTime, &QTimeEdit::timeChanged, this, [&](){
         if(m_timerId != -1)
