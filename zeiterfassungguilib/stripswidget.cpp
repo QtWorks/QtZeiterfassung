@@ -13,7 +13,7 @@
 #include "stripfactory.h"
 
 StripsWidget::StripsWidget(MainWindow &mainWindow, QWidget *parent) :
-    QWidget(parent),
+    QFrame(parent),
     m_mainWindow(mainWindow),
     m_refreshing(false),
     m_refreshingBookings(false),
@@ -81,6 +81,20 @@ void StripsWidget::setDate(const QDate &date)
             m_label->setText(tr("Invalid"));
 
         refresh();
+    }
+}
+
+bool StripsWidget::highlighted() const
+{
+    return m_highlighted;
+}
+
+void StripsWidget::setHighlighted(bool highlighted)
+{
+    if(m_highlighted != highlighted)
+    {
+        Q_EMIT highlightedChanged(m_highlighted = highlighted);
+        setFrameStyle(highlighted ? QFrame::Box : QFrame::NoFrame);
     }
 }
 

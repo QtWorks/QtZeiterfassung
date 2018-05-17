@@ -355,12 +355,15 @@ void MainWindow::dateChangedSlot(const QDate &date)
         {
             if(m_currentStripWidget)
             {
+                m_currentStripWidget->setHighlighted(false);
                 disconnect(m_currentStripWidget, &StripsWidget::minimumTimeChanged, this, &MainWindow::minimumTimeChanged);
                 disconnect(m_currentStripWidget, &StripsWidget::startEnabledChanged, this, &MainWindow::startEnabledChanged);
                 disconnect(m_currentStripWidget, &StripsWidget::endEnabledChanged, this, &MainWindow::endEnabledChanged);
             }
 
             m_currentStripWidget = m_stripsWidgets[i];
+
+            m_currentStripWidget->setHighlighted(true);
 
             minimumTimeChanged();
             startEnabledChanged();

@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <QWidget>
+#include <QFrame>
 #include <QTime>
 
 #include "zeiterfassungguilib_global.h"
@@ -15,7 +15,7 @@ template <typename T> class QVector;
 
 class MainWindow;
 
-class ZEITERFASSUNGGUILIBSHARED_EXPORT StripsWidget : public QWidget
+class ZEITERFASSUNGGUILIBSHARED_EXPORT StripsWidget : public QFrame
 {
     Q_OBJECT
 
@@ -31,6 +31,9 @@ public:
 
     const QDate &date() const;
     void setDate(const QDate &date);
+
+    bool highlighted() const;
+    void setHighlighted(bool highlighted);
 
     const QVector<GetBookingsReply::Booking> &bookings() const;
     const QVector<GetTimeAssignmentsReply::TimeAssignment> &timeAssignments() const;
@@ -52,6 +55,7 @@ public:
 
 Q_SIGNALS:
     void dateChanged(const QDate &date);
+    void highlightedChanged(bool highlighted);
 
     void bookingsChanged(const QVector<GetBookingsReply::Booking> &bookings);
     void timeAssignmentsChanged(const QVector<GetTimeAssignmentsReply::TimeAssignment> &timeAssignments);
@@ -86,6 +90,7 @@ private:
     QLabel *m_label;
 
     QDate m_date;
+    bool m_highlighted;
 
     QVector<GetBookingsReply::Booking> m_bookings;
     QVector<GetTimeAssignmentsReply::TimeAssignment> m_timeAssignments;
