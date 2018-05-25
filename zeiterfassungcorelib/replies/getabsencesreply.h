@@ -21,14 +21,14 @@ public:
 
     struct Absence
     {
-        int altRepresentative;
         QString compositeId;
+        int persNr;
+        QDate start;
         QDate end;
         QString hourCategory;
         QString openMarking;
-        int persNr;
         int representative;
-        QDate start;
+        int altRepresentative;
         QString text;
     };
 
