@@ -28,8 +28,7 @@ SOURCES += timeutils.cpp \
            replies/updatetimeassignmentreply.cpp \
            replies/zeiterfassungreply.cpp
 
-HEADERS += cpp14polyfills.h \
-           timeutils.h \
+HEADERS += timeutils.h \
            zeiterfassungapi.h \
            zeiterfassungcorelib_global.h \
            zeiterfassungsettings.h \
