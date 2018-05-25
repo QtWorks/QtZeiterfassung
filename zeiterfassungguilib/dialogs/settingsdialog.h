@@ -20,6 +20,8 @@ private Q_SLOTS:
     void submit();
 
 private:
+    void errorOccured();
+
     Ui::SettingsDialog *ui;
     ZeiterfassungSettings &m_settings;
     QVector<SettingsWidget*> m_settingsWidgets;
