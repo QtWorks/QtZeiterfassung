@@ -9,6 +9,7 @@
 #include <QAction>
 
 #include "absencesmodel.h"
+#include "absencedialog.h"
 
 AbsencesDialog::AbsencesDialog(int userId, const QDate &date, ZeiterfassungApi &erfassung, QWidget *parent) :
     ZeiterfassungDialog(parent),
@@ -50,7 +51,11 @@ void AbsencesDialog::customContextMenuRequested(const QPoint &pos)
         auto selectedAction = menu.exec(ui->treeView->viewport()->mapToGlobal(pos));
         if(selectedAction == createAction)
         {
-            //TODO
+            AbsenceDialog dialog(this);
+            if(dialog.exec() == QDialog::Accepted)
+            {
+                //TODO
+            }
         }
         else if(selectedAction == refreshAction)
         {
@@ -67,7 +72,11 @@ void AbsencesDialog::customContextMenuRequested(const QPoint &pos)
         auto selectedAction = menu.exec(ui->treeView->viewport()->mapToGlobal(pos));
         if(selectedAction == editAction)
         {
-            //TODO
+            AbsenceDialog dialog(this);
+            if(dialog.exec() == QDialog::Accepted)
+            {
+                //TODO
+            }
         }
         else if(selectedAction == deleteAction)
         {

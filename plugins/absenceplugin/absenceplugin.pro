@@ -8,16 +8,19 @@ HEADERS += \
            absencesmodel.h \
            absenceplugin.h \
            absencewidget.h \
-    absencesdialog.h
+    absencesdialog.h \
+    absencedialog.h
 
 SOURCES += \
            absencesmodel.cpp \
            absenceplugin.cpp \
            absencewidget.cpp \
-    absencesdialog.cpp
+    absencesdialog.cpp \
+    absencedialog.cpp
 
 FORMS += \
-    absencesdialog.ui
+    absencesdialog.ui \
+    absencedialog.ui
 
 RESOURCES += absenceplugin_resources.qrc
 
