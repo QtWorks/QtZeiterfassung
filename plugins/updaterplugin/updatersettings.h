@@ -16,12 +16,14 @@ public:
     explicit UpdaterSettings(ZeiterfassungSettings &settings, QObject *parent = Q_NULLPTR);
 
     QUrl url() const;
-    void setUrl(const QUrl &url);
+    bool setUrl(const QUrl &url);
 
     QDate lastUpdateCheck() const;
-    void setLastUpdateCheck(const QDate &lastUpdateCheck);
+    bool setLastUpdateCheck(const QDate &lastUpdateCheck);
 
 Q_SIGNALS:
+    void saveErrorOccured();
+
     void urlChanged(const QUrl &url);
     void lastUpdateCheckChanged(const QDate &lastUpdateCheck);
 

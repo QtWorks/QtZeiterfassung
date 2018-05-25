@@ -18,13 +18,25 @@ QUrl UpdaterSettings::url() const
     return m_settings.value(m_url, m_defaultUrl).toUrl();
 }
 
-void UpdaterSettings::setUrl(const QUrl &url)
+bool UpdaterSettings::setUrl(const QUrl &url)
 {
-    if(this->url() != url)
-    {
-        m_settings.setValue(m_url, url);
+    if(this->url() == url)
+        return true;
+
+    m_settings.setValue(m_url, url);
+
+    m_settings.sync();
+
+    const auto success = m_settings.status() == QSettings::NoError;
+    if(success)
         Q_EMIT urlChanged(url);
+    else
+    {
+        Q_EMIT m_settings.saveErrorOccured();
+        Q_EMIT saveErrorOccured();
     }
+
+    return success;
 }
 
 QDate UpdaterSettings::lastUpdateCheck() const
@@ -32,11 +44,23 @@ QDate UpdaterSettings::lastUpdateCheck() const
     return m_settings.value(m_lastUpdateCheck).toDate();
 }
 
-void UpdaterSettings::setLastUpdateCheck(const QDate &lastUpdateCheck)
+bool UpdaterSettings::setLastUpdateCheck(const QDate &lastUpdateCheck)
 {
-    if(this->lastUpdateCheck() != lastUpdateCheck)
-    {
-        m_settings.setValue(m_lastUpdateCheck, lastUpdateCheck);
+    if(this->lastUpdateCheck() == lastUpdateCheck)
+        return true;
+
+    m_settings.setValue(m_lastUpdateCheck, lastUpdateCheck);
+
+    m_settings.sync();
+
+    const auto success = m_settings.status() == QSettings::NoError;
+    if(success)
         Q_EMIT lastUpdateCheckChanged(lastUpdateCheck);
+    else
+    {
+        Q_EMIT m_settings.saveErrorOccured();
+        Q_EMIT saveErrorOccured();
     }
+
+    return success;
 }
