@@ -13,9 +13,11 @@ public:
     PresenceSettings(ZeiterfassungSettings &settings, QObject *parent = Q_NULLPTR);
 
     int interval() const;
-    void setInterval(int interval);
+    bool setInterval(int interval);
 
 Q_SIGNALS:
+    void saveErrorOccured();
+
     void intervalChanged(int interval);
 
 private:
