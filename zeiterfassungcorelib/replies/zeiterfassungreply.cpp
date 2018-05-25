@@ -1,6 +1,7 @@
 #include "zeiterfassungreply.h"
 
 #include <QEventLoop>
+#include <QJsonValue>
 
 #include "zeiterfassungapi.h"
 
@@ -27,6 +28,22 @@ void ZeiterfassungReply::waitForFinished()
     QEventLoop eventLoop;
     connect(this, &ZeiterfassungReply::finished, &eventLoop, &QEventLoop::quit);
     eventLoop.exec();
+}
+
+QDate ZeiterfassungReply::parseDate(const QJsonValue &value)
+{
+    if(value.isNull())
+        return QDate();
+
+    return QDate::fromString(QString::number(value.toInt()), QStringLiteral("yyyyMMdd"));
+}
+
+QTime ZeiterfassungReply::parseTime(const QJsonValue &value)
+{
+    if(value.isNull())
+        return QTime();
+
+    return QTime::fromString(QStringLiteral("%0").arg(value.toInt(), 6, 10, QChar('0')), QStringLiteral("HHmmss"));
 }
 
 ZeiterfassungApi *ZeiterfassungReply::zeiterfassung() const

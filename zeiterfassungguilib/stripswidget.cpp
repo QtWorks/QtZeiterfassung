@@ -12,10 +12,14 @@
 #include "timeutils.h"
 #include "stripfactory.h"
 
+const QStringList StripsWidget::m_weekDays { tr("Monday"), tr("Tuesday"),
+    tr("Wednesday"), tr("Thursday"), tr("Friday"), tr("Saturday"), tr("Sunday") };
+
 StripsWidget::StripsWidget(MainWindow &mainWindow, QWidget *parent) :
     QFrame(parent),
     m_mainWindow(mainWindow),
     m_refreshing(false),
+    m_refreshingDayinfo(false),
     m_refreshingBookings(false),
     m_refreshingTimeAssignments(false),
     m_startEnabled(false),
@@ -24,14 +28,19 @@ StripsWidget::StripsWidget(MainWindow &mainWindow, QWidget *parent) :
     auto layout = new QVBoxLayout(this);
 
     m_headerLayout = new QHBoxLayout;
-    m_label = new QLabel;
+
+    m_label[0] = new QLabel;
     {
-        auto font = m_label->font();
+        auto font = m_label[0]->font();
         font.setBold(true);
-        m_label->setFont(font);
+        m_label[0]->setFont(font);
     }
-    m_headerLayout->addWidget(m_label, 1);
+    m_headerLayout->addWidget(m_label[0], 1);
+
     layout->addLayout(m_headerLayout);
+
+    m_label[1] = new QLabel;
+    layout->addWidget(m_label[1]);
 
     m_stripsLayout = new QVBoxLayout;
     layout->addLayout(m_stripsLayout);
@@ -56,9 +65,14 @@ QBoxLayout *StripsWidget::stripsLayout() const
     return m_stripsLayout;
 }
 
-QLabel *StripsWidget::label() const
+QLabel *StripsWidget::label0() const
 {
-    return m_label;
+    return m_label[0];
+}
+
+QLabel *StripsWidget::label1() const
+{
+    return m_label[1];
 }
 
 const QDate &StripsWidget::date() const
@@ -73,12 +87,11 @@ void StripsWidget::setDate(const QDate &date)
         Q_EMIT dateChanged(m_date = date);
 
         if(m_date.isValid())
-            m_label->setText(tr("%0 (%1)")
-                             .arg(std::array<QString, 7> { tr("Monday"), tr("Tuesday"), tr("Wednesday"), tr("Thursday"),
-                                                           tr("Friday"), tr("Saturday"), tr("Sunday") }[m_date.dayOfWeek() - 1])
+            m_label[0]->setText(tr("%0 (%1)")
+                             .arg(m_weekDays.at(m_date.dayOfWeek() - 1))
                              .arg(m_date.toString(tr("dd.MM.yyyy"))));
         else
-            m_label->setText(tr("Invalid"));
+            m_label[0]->setText(tr("Invalid"));
 
         refresh();
     }
@@ -96,6 +109,11 @@ void StripsWidget::setHighlighted(bool highlighted)
         Q_EMIT highlightedChanged(m_highlighted = highlighted);
         setFrameStyle(highlighted ? QFrame::Box : QFrame::NoFrame);
     }
+}
+
+const GetDayinfoReply::Dayinfo &StripsWidget::dayinfo() const
+{
+    return m_dayinfo;
 }
 
 const QVector<GetBookingsReply::Booking> &StripsWidget::bookings() const
@@ -128,6 +146,11 @@ bool StripsWidget::refreshing() const
     return m_refreshing;
 }
 
+bool StripsWidget::refreshingDayinfo() const
+{
+    return m_refreshingDayinfo;
+}
+
 bool StripsWidget::refreshingBookings() const
 {
     return m_refreshingBookings;
@@ -152,10 +175,32 @@ void StripsWidget::refresh()
 {
     clearStrips();
 
+    m_label[1]->setText(QString());
     m_stripsLayout->addWidget(new QLabel(tr("Loading..."), this));
 
+    refreshDayinfo();
     refreshBookings(false);
     refreshTimeAssignments(false);
+}
+
+void StripsWidget::refreshDayinfo()
+{
+    if(!m_date.isValid())
+    {
+        qWarning() << "invalid date";
+        return;
+    }
+
+    if(!m_refreshing)
+        Q_EMIT refreshingChanged(m_refreshing = true);
+
+    if(!m_refreshingDayinfo)
+        Q_EMIT refreshingDayinfoChanged(m_refreshingDayinfo = true);
+
+    invalidateValues();
+
+    m_getDayinfoReply = m_mainWindow.erfassung().doGetDayinfo(m_mainWindow.userInfo().userId, m_date, m_date);
+    connect(m_getDayinfoReply.get(), &ZeiterfassungReply::finished, this, &StripsWidget::getDayinfoFinished);
 }
 
 void StripsWidget::refreshBookings(bool createLabel)
@@ -483,6 +528,13 @@ void StripsWidget::clearStrips()
     }
 }
 
+void StripsWidget::getDayinfoFinished()
+{
+    Q_EMIT dayinfoChanged(m_dayinfo = m_getDayinfoReply->dayinfos().first());
+
+    m_label[1]->setText(QString("%0 - %1").arg(m_dayinfo.soll.toString("HH:mm")).arg(m_dayinfo.ist.toString("HH:mm")));
+}
+
 void StripsWidget::getBookingsFinished()
 {
     Q_EMIT bookingsChanged(m_bookings = m_getBookingsReply->bookings());
@@ -490,13 +542,11 @@ void StripsWidget::getBookingsFinished()
     if(m_refreshingBookings)
         Q_EMIT refreshingBookingsChanged(m_refreshingBookings = false);
 
-    if(!m_getTimeAssignmentsReply)
-    {
-        if(m_refreshing)
-            Q_EMIT refreshingChanged(m_refreshing = false);
+    if(m_refreshing && !m_getDayinfoReply && !m_getTimeAssignmentsReply)
+        Q_EMIT refreshingChanged(m_refreshing = false);
 
+    if(!m_getTimeAssignmentsReply)
         createStrips();
-    }
 
     m_getBookingsReply = Q_NULLPTR;
 }
@@ -508,13 +558,11 @@ void StripsWidget::getTimeAssignmentsFinished()
     if(m_refreshingTimeAssignments)
         Q_EMIT refreshingTimeAssignmentsChanged(m_refreshingTimeAssignments = false);
 
-    if(!m_getBookingsReply)
-    {
-        if(m_refreshing)
-            Q_EMIT refreshingChanged(m_refreshing = false);
+    if(m_refreshing && !m_getDayinfoReply && !m_getBookingsReply)
+        Q_EMIT refreshingChanged(m_refreshing = false);
 
+    if(!m_getBookingsReply)
         createStrips();
-    }
 
     m_getTimeAssignmentsReply = Q_NULLPTR;
 }

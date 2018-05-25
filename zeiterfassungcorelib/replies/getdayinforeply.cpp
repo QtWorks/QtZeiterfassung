@@ -1,5 +1,6 @@
-#include "getbookingsreply.h"
+#include "getdayinforeply.h"
 
+#include <QDebug>
 #include <QJsonParseError>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -8,19 +9,19 @@
 
 #include "zeiterfassungapi.h"
 
-GetBookingsReply::GetBookingsReply(std::unique_ptr<QNetworkReply> &&reply, ZeiterfassungApi *zeiterfassung) :
+GetDayinfoReply::GetDayinfoReply(std::unique_ptr<QNetworkReply> &&reply, ZeiterfassungApi *zeiterfassung) :
     ZeiterfassungReply(zeiterfassung),
     m_reply(std::move(reply))
 {
-    connect(m_reply.get(), &QNetworkReply::finished, this, &GetBookingsReply::requestFinished);
+    connect(m_reply.get(), &QNetworkReply::finished, this, &GetDayinfoReply::requestFinished);
 }
 
-const QVector<GetBookingsReply::Booking> &GetBookingsReply::bookings() const
+const QVector<GetDayinfoReply::Dayinfo> &GetDayinfoReply::dayinfos() const
 {
-    return m_bookings;
+    return m_dayinfos;
 }
 
-void GetBookingsReply::requestFinished()
+void GetDayinfoReply::requestFinished()
 {
     if(m_reply->error() != QNetworkReply::NoError)
     {
@@ -49,19 +50,19 @@ void GetBookingsReply::requestFinished()
         auto arr = document.array();
 
         setSuccess(true);
-        m_bookings.clear();
-        m_bookings.reserve(arr.count());
+        m_dayinfos.clear();
+        m_dayinfos.reserve(arr.count());
         for(const auto &val : arr)
         {
             auto obj = val.toObject();
 
-            m_bookings.append({
-                obj.value(QStringLiteral("bookingNr")).toInt(),
-                parseDate(obj.value(QStringLiteral("bookingDate"))),
-                parseTime(obj.value(QStringLiteral("bookingTime"))),
-                parseTime(obj.value(QStringLiteral("bookingTimespan"))),
-                obj.value(QStringLiteral("bookingType")).toString(),
-                obj.value(QStringLiteral("text")).toString()
+            m_dayinfos.append({
+                obj.value(QStringLiteral("className")).toString(),
+                obj.value(QStringLiteral("persNr")).toInt(),
+                parseDate(obj.value(QStringLiteral("date"))),
+                parseTime(obj.value(QStringLiteral("ist"))),
+                parseTime(obj.value(QStringLiteral("soll"))),
+                obj.value(QStringLiteral("compositeId")).toString()
             });
         }
     }

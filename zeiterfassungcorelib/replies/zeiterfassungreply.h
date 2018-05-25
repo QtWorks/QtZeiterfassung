@@ -4,6 +4,8 @@
 
 #include "zeiterfassungcorelib_global.h"
 
+class QJsonValue;
+
 class ZeiterfassungApi;
 
 class ZEITERFASSUNGCORELIBSHARED_EXPORT ZeiterfassungReply : public QObject
@@ -17,6 +19,9 @@ public:
     const QString &message() const;
 
     void waitForFinished();
+
+    static QDate parseDate(const QJsonValue &value);
+    static QTime parseTime(const QJsonValue &value);
 
 Q_SIGNALS:
     void finished();
