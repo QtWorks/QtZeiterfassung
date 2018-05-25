@@ -7,22 +7,22 @@ class QDate;
 class ZeiterfassungApi;
 
 class AbsencesModel;
-namespace Ui { class AbsenceDialog; }
+namespace Ui { class AbsencesDialog; }
 
-class AbsenceDialog : public ZeiterfassungDialog
+class AbsencesDialog : public ZeiterfassungDialog
 {
     Q_OBJECT
 
 public:
-    explicit AbsenceDialog(int userId, const QDate &date, ZeiterfassungApi &erfassung, QWidget *parent = 0);
-    ~AbsenceDialog();
+    explicit AbsencesDialog(int userId, const QDate &date, ZeiterfassungApi &erfassung, QWidget *parent = 0);
+    ~AbsencesDialog();
 
 private Q_SLOTS:
     void errorOccured(const QString &message);
     void customContextMenuRequested(const QPoint &pos);
 
 private:
-    Ui::AbsenceDialog *ui;
+    Ui::AbsencesDialog *ui;
 
     AbsencesModel *m_model;
 };

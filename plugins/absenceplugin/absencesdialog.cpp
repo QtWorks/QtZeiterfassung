@@ -1,5 +1,5 @@
-#include "absencedialog.h"
-#include "ui_absencedialog.h"
+#include "absencesdialog.h"
+#include "ui_absencesdialog.h"
 
 #include <QDate>
 #include <QLocale>
@@ -10,35 +10,35 @@
 
 #include "absencesmodel.h"
 
-AbsenceDialog::AbsenceDialog(int userId, const QDate &date, ZeiterfassungApi &erfassung, QWidget *parent) :
+AbsencesDialog::AbsencesDialog(int userId, const QDate &date, ZeiterfassungApi &erfassung, QWidget *parent) :
     ZeiterfassungDialog(parent),
-    ui(new Ui::AbsenceDialog)
+    ui(new Ui::AbsencesDialog)
 {
     ui->setupUi(this);
 
     ui->labelTitle->setText(tr("Absences for %0").arg(QLocale().toString(date)));
 
     m_model = new AbsencesModel(userId, date, erfassung, this);
-    connect(m_model, &AbsencesModel::errorOccured, this, &AbsenceDialog::errorOccured);
+    connect(m_model, &AbsencesModel::errorOccured, this, &AbsencesDialog::errorOccured);
 
     ui->treeView->setModel(m_model);
     ui->treeView->setEnabled(m_model->enabled());
     connect(m_model, &AbsencesModel::enabledChanged, ui->treeView, &QWidget::setEnabled);
 
-    connect(ui->treeView, &QWidget::customContextMenuRequested, this, &AbsenceDialog::customContextMenuRequested);
+    connect(ui->treeView, &QWidget::customContextMenuRequested, this, &AbsencesDialog::customContextMenuRequested);
 }
 
-AbsenceDialog::~AbsenceDialog()
+AbsencesDialog::~AbsencesDialog()
 {
     delete ui;
 }
 
-void AbsenceDialog::errorOccured(const QString &message)
+void AbsencesDialog::errorOccured(const QString &message)
 {
     QMessageBox::warning(this, tr("Could not load absences!"), tr("Could not load absences!") % "\n\n" % message);
 }
 
-void AbsenceDialog::customContextMenuRequested(const QPoint &pos)
+void AbsencesDialog::customContextMenuRequested(const QPoint &pos)
 {
     auto index = ui->treeView->indexAt(pos);
 

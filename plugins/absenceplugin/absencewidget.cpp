@@ -3,7 +3,7 @@
 #include "stripswidget.h"
 #include "mainwindow.h"
 
-#include "absencedialog.h"
+#include "absencesdialog.h"
 
 AbsenceWidget::AbsenceWidget(StripsWidget &stripsWidget) :
     QToolButton(&stripsWidget),
@@ -17,7 +17,7 @@ AbsenceWidget::AbsenceWidget(StripsWidget &stripsWidget) :
 
 void AbsenceWidget::pressedSlot()
 {
-    AbsenceDialog dialog(m_stripsWidget.mainWindow().userInfo().userId, m_stripsWidget.date(),
+    AbsencesDialog dialog(m_stripsWidget.mainWindow().userInfo().userId, m_stripsWidget.date(),
                          m_stripsWidget.mainWindow().erfassung(), this);
     dialog.exec();
 }

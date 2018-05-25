@@ -4,17 +4,20 @@ TARGET = absenceplugin
 
 DBLIBS += core gui
 
-HEADERS += absencedialog.h \
+HEADERS += \
            absencesmodel.h \
            absenceplugin.h \
-           absencewidget.h
+           absencewidget.h \
+    absencesdialog.h
 
-SOURCES += absencedialog.cpp \
+SOURCES += \
            absencesmodel.cpp \
            absenceplugin.cpp \
-           absencewidget.cpp
+           absencewidget.cpp \
+    absencesdialog.cpp
 
-FORMS += absencedialog.ui
+FORMS += \
+    absencesdialog.ui
 
 RESOURCES += absenceplugin_resources.qrc
 
