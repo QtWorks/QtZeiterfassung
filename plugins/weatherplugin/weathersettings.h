@@ -14,9 +14,11 @@ public:
     WeatherSettings(ZeiterfassungSettings &settings, QObject *parent = Q_NULLPTR);
 
     QUrl url() const;
-    void setUrl(const QUrl &url);
+    bool setUrl(const QUrl &url);
 
 Q_SIGNALS:
+    void saveErrorOccured();
+
     void urlChanged(const QUrl &url);
 
 private:
