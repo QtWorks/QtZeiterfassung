@@ -36,7 +36,10 @@ bool WebRadioSettings::setUrls(const QStringList &urls)
     if(this->urls() == urls)
         return true;
 
-    m_settings.setValue(m_urls, urls);
+    if(urls == m_defaultUrls)
+        m_settings.remove(m_urls);
+    else
+        m_settings.setValue(m_urls, urls);
 
     m_settings.sync();
 
@@ -62,7 +65,10 @@ bool WebRadioSettings::setLastUrl(const QString &lastUrl)
     if(this->lastUrl() == lastUrl)
         return true;
 
-    m_settings.setValue(m_lastUrl, lastUrl);
+    if(lastUrl.isNull())
+        m_settings.remove(m_lastUrl);
+    else
+        m_settings.setValue(m_lastUrl, lastUrl);
 
     m_settings.sync();
 
@@ -88,7 +94,10 @@ bool WebRadioSettings::setVolume(int volume)
     if(this->volume() == volume)
         return true;
 
-    m_settings.setValue(m_volume, volume);
+    if(volume == m_defaultVolume)
+        m_settings.remove(m_volume);
+    else
+        m_settings.setValue(m_volume, volume);
 
     m_settings.sync();
 

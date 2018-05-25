@@ -23,7 +23,10 @@ bool UpdaterSettings::setUrl(const QUrl &url)
     if(this->url() == url)
         return true;
 
-    m_settings.setValue(m_url, url);
+    if(url == m_defaultUrl)
+        m_settings.remove(m_url);
+    else
+        m_settings.setValue(m_url, url);
 
     m_settings.sync();
 
@@ -49,7 +52,10 @@ bool UpdaterSettings::setLastUpdateCheck(const QDate &lastUpdateCheck)
     if(this->lastUpdateCheck() == lastUpdateCheck)
         return true;
 
-    m_settings.setValue(m_lastUpdateCheck, lastUpdateCheck);
+    if(!lastUpdateCheck.isValid())
+        m_settings.remove(m_lastUpdateCheck);
+    else
+        m_settings.setValue(m_lastUpdateCheck, lastUpdateCheck);
 
     m_settings.sync();
 

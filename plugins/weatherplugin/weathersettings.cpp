@@ -22,7 +22,10 @@ bool WeatherSettings::setUrl(const QUrl &url)
     if(this->url() == url)
         return true;
 
-    m_settings.setValue(m_url, url);
+    if(url == m_defaultUrl)
+        m_settings.remove(m_url);
+    else
+        m_settings.setValue(m_url, url);
 
     m_settings.sync();
 

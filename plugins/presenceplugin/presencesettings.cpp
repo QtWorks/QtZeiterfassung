@@ -22,7 +22,10 @@ bool PresenceSettings::setInterval(int interval)
     if(this->interval() == interval)
         return true;
 
-    m_settings.setValue(m_interval, interval);
+    if(interval == m_defaultInterval)
+        m_settings.remove(m_interval);
+    else
+        m_settings.setValue(m_interval, interval);
 
     m_settings.sync();
 

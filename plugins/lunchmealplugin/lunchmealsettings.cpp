@@ -24,7 +24,10 @@ bool LunchMealSettings::setUrl(const QString &url)
     if(this->url() == url)
         return true;
 
-    m_settings.setValue(QStringLiteral("LunchMealPlugin/url"), url);
+    if(url == m_defaultUrl)
+        m_settings.remove(m_url);
+    else
+        m_settings.setValue(m_url, url);
 
     m_settings.sync();
 
@@ -50,7 +53,10 @@ bool LunchMealSettings::setDateFormat(const QString &dateFormat)
     if(this->dateFormat() == dateFormat)
         return true;
 
-    m_settings.setValue(QStringLiteral("LunchMealPlugin/dateFormat"), dateFormat);
+    if(dateFormat == m_defaultDateFormat)
+        m_settings.remove(m_dateFormat);
+    else
+        m_settings.setValue(m_dateFormat, dateFormat);
 
     m_settings.sync();
 
