@@ -16,15 +16,17 @@ public:
     WebRadioSettings(ZeiterfassungSettings &settings, QObject *parent = Q_NULLPTR);
 
     QStringList urls() const;
-    void setUrls(const QStringList &urls);
+    bool setUrls(const QStringList &urls);
 
     QString lastUrl() const;
-    void setLastUrl(const QString &lastUrl);
+    bool setLastUrl(const QString &lastUrl);
 
     int volume() const;
-    void setVolume(int volume);
+    bool setVolume(int volume);
 
 Q_SIGNALS:
+    void saveErrorOccured();
+
     void urlsChanged(const QStringList &urls);
     void lastUrlChanged(const QString &lastUrl);
     void volumeChanged(int volume);

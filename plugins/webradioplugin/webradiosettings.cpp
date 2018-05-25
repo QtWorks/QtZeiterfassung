@@ -31,13 +31,25 @@ QStringList WebRadioSettings::urls() const
     return m_settings.value(m_urls, m_defaultUrls).toStringList();
 }
 
-void WebRadioSettings::setUrls(const QStringList &urls)
+bool WebRadioSettings::setUrls(const QStringList &urls)
 {
-    if(this->urls() != urls)
-    {
-        m_settings.setValue(m_urls, urls);
+    if(this->urls() == urls)
+        return true;
+
+    m_settings.setValue(m_urls, urls);
+
+    m_settings.sync();
+
+    const auto success = m_settings.status() == QSettings::NoError;
+    if(success)
         Q_EMIT urlsChanged(urls);
+    else
+    {
+        Q_EMIT m_settings.saveErrorOccured();
+        Q_EMIT saveErrorOccured();
     }
+
+    return success;
 }
 
 QString WebRadioSettings::lastUrl() const
@@ -45,13 +57,25 @@ QString WebRadioSettings::lastUrl() const
     return m_settings.value(m_lastUrl).toString();
 }
 
-void WebRadioSettings::setLastUrl(const QString &lastUrl)
+bool WebRadioSettings::setLastUrl(const QString &lastUrl)
 {
-    if(this->lastUrl() != lastUrl)
-    {
-        m_settings.setValue(m_lastUrl, lastUrl);
+    if(this->lastUrl() == lastUrl)
+        return true;
+
+    m_settings.setValue(m_lastUrl, lastUrl);
+
+    m_settings.sync();
+
+    const auto success = m_settings.status() == QSettings::NoError;
+    if(success)
         Q_EMIT lastUrlChanged(lastUrl);
+    else
+    {
+        Q_EMIT m_settings.saveErrorOccured();
+        Q_EMIT saveErrorOccured();
     }
+
+    return success;
 }
 
 int WebRadioSettings::volume() const
@@ -59,11 +83,23 @@ int WebRadioSettings::volume() const
     return m_settings.value(m_volume, m_defaultVolume).toInt();
 }
 
-void WebRadioSettings::setVolume(int volume)
+bool WebRadioSettings::setVolume(int volume)
 {
-    if(this->volume() != volume)
-    {
-        m_settings.setValue(m_volume, volume);
+    if(this->volume() == volume)
+        return true;
+
+    m_settings.setValue(m_volume, volume);
+
+    m_settings.sync();
+
+    const auto success = m_settings.status() == QSettings::NoError;
+    if(success)
         Q_EMIT volumeChanged(volume);
+    else
+    {
+        Q_EMIT m_settings.saveErrorOccured();
+        Q_EMIT saveErrorOccured();
     }
+
+    return success;
 }
