@@ -31,8 +31,7 @@ bool WebRadioSettingsWidget::isValid(QString &message) const
     return true;
 }
 
-void WebRadioSettingsWidget::apply()
+bool WebRadioSettingsWidget::apply()
 {
-    if(m_urlsWidget->stringList() != m_settings.urls())
-        m_settings.setUrls(m_urlsWidget->stringList());
+    return m_settings.setUrls(m_urlsWidget->stringList());
 }

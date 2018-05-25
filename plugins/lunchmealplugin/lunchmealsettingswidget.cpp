@@ -29,8 +29,8 @@ bool LunchMealSettingsWidget::isValid(QString &message) const
     return valid;
 }
 
-void LunchMealSettingsWidget::apply()
+bool LunchMealSettingsWidget::apply()
 {
-    m_settings.setUrl(m_lineEditUrl->text());
-    m_settings.setDateFormat(m_lineEditDateFormat->text());
+    return m_settings.setUrl(m_lineEditUrl->text()) &&
+           m_settings.setDateFormat(m_lineEditDateFormat->text());
 }

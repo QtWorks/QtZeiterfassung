@@ -26,7 +26,7 @@ bool UpdaterSettingsWidget::isValid(QString &message) const
     return valid;
 }
 
-void UpdaterSettingsWidget::apply()
+bool UpdaterSettingsWidget::apply()
 {
-    m_settings.setUrl(QUrl(m_lineEdit->text()));
+    return m_settings.setUrl(QUrl(m_lineEdit->text()));
 }
