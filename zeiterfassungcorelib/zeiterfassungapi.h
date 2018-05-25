@@ -27,6 +27,7 @@ class GetProjectsReply;
 class GetReportReply;
 class GetPresenceStatusReply;
 class GetAbsencesReply;
+class GetDayinfoReply;
 
 class ZEITERFASSUNGCORELIBSHARED_EXPORT ZeiterfassungApi : public QObject
 {
@@ -66,8 +67,12 @@ public:
     std::unique_ptr<GetReportReply> doGetReport(int userId, const QDate &date);
     std::unique_ptr<GetPresenceStatusReply> doGetPresenceStatus();
     std::unique_ptr<GetAbsencesReply> doGetAbsences(int userId, const QDate &start, const QDate &end);
+    std::unique_ptr<GetDayinfoReply> doGetDayinfo(int userId, const QDate &start, const QDate &end);
 
 private:
+    static QString formatDate(const QDate &date);
+    static QString formatTime(const QTime &time);
+
     QUrl m_url;
     QNetworkAccessManager *m_manager;
 };

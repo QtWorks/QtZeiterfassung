@@ -24,6 +24,7 @@
 #include "replies/getreportreply.h"
 #include "replies/getpresencestatusreply.h"
 #include "replies/getabsencesreply.h"
+#include "replies/getdayinforeply.h"
 
 //add support for pre cpp14 compilers
 #include "cpp14polyfills.h"
@@ -84,8 +85,8 @@ std::unique_ptr<GetBookingsReply> ZeiterfassungApi::doGetBookings(int userId, co
 {
     QNetworkRequest request(QUrl(QStringLiteral("%0json/bookings?start=%1&end=%2&pnrLst=%3")
                                  .arg(m_url.toString())
-                                 .arg(start.toString(QStringLiteral("yyyyMMdd")))
-                                 .arg(end.toString(QStringLiteral("yyyyMMdd")))
+                                 .arg(formatDate(start))
+                                 .arg(formatDate(end))
                                  .arg(userId)));
     request.setRawHeader(QByteArrayLiteral("sisAppName"), QByteArrayLiteral("bookingCalendar"));
 
@@ -101,9 +102,9 @@ std::unique_ptr<CreateBookingReply> ZeiterfassungApi::doCreateBooking(int userId
 
     QJsonObject obj;
     obj[QStringLiteral("persNr")] = userId;
-    obj[QStringLiteral("bookingDate")] = date.toString(QStringLiteral("yyyyMMdd")).toInt();
-    obj[QStringLiteral("bookingTime")] = time.toString(QStringLiteral("Hmmss")).toInt();
-    obj[QStringLiteral("bookingTimespan")] = timespan.toString(QStringLiteral("Hmmss")).toInt();
+    obj[QStringLiteral("bookingDate")] = formatDate(date).toInt();
+    obj[QStringLiteral("bookingTime")] = formatTime(time).toInt();
+    obj[QStringLiteral("bookingTimespan")] = formatTime(timespan).toInt();
     obj[QStringLiteral("bookingType")] = type;
     obj[QStringLiteral("hourCategory")] = QStringLiteral("");
     obj[QStringLiteral("empfEinh")] = QStringLiteral("");
@@ -125,9 +126,9 @@ std::unique_ptr<UpdateBookingReply> ZeiterfassungApi::doUpdateBooking(int bookin
     QJsonObject obj;
     obj[QStringLiteral("bookingNr")] = bookingId;
     obj[QStringLiteral("persNr")] = userId;
-    obj[QStringLiteral("bookingDate")] = date.toString(QStringLiteral("yyyyMMdd")).toInt();
-    obj[QStringLiteral("bookingTime")] = time.toString(QStringLiteral("Hmmss")).toInt();
-    obj[QStringLiteral("bookingTimespan")] = timespan.toString(QStringLiteral("Hmmss")).toInt();
+    obj[QStringLiteral("bookingDate")] = formatDate(date).toInt();
+    obj[QStringLiteral("bookingTime")] = formatTime(time).toInt();
+    obj[QStringLiteral("bookingTimespan")] = formatTime(timespan).toInt();
     obj[QStringLiteral("bookingType")] = type;
     obj[QStringLiteral("hourCategory")] = QStringLiteral("");
     obj[QStringLiteral("empfEinh")] = QStringLiteral("");
@@ -153,8 +154,8 @@ std::unique_ptr<GetTimeAssignmentsReply> ZeiterfassungApi::doGetTimeAssignments(
 {
     QNetworkRequest request(QUrl(QStringLiteral("%0json/azebooking?start=%1&end=%2&pnrLst=%3")
                                  .arg(m_url.toString())
-                                 .arg(start.toString(QStringLiteral("yyyyMMdd")))
-                                 .arg(end.toString(QStringLiteral("yyyyMMdd")))
+                                 .arg(formatDate(start))
+                                 .arg(formatDate(end))
                                  .arg(userId)));
     request.setRawHeader(QByteArrayLiteral("sisAppName"), QByteArrayLiteral("bookingCalendar"));
 
@@ -173,9 +174,9 @@ std::unique_ptr<CreateTimeAssignmentReply> ZeiterfassungApi::doCreateTimeAssignm
     QJsonObject obj;
     obj[QStringLiteral("bookingNr")] = QJsonValue::Null;
     obj[QStringLiteral("persNr")] = userId;
-    obj[QStringLiteral("bookingDate")] = date.toString(QStringLiteral("yyyyMMdd")).toInt();
-    obj[QStringLiteral("bookingTime")] = time.toString(QStringLiteral("Hmmss")).toInt();
-    obj[QStringLiteral("bookingTimespan")] = timespan.toString(QStringLiteral("Hmmss")).toInt();
+    obj[QStringLiteral("bookingDate")] = formatDate(date).toInt();
+    obj[QStringLiteral("bookingTime")] = formatTime(time).toInt();
+    obj[QStringLiteral("bookingTimespan")] = formatTime(timespan).toInt();
     obj[QStringLiteral("text")] = text;
     {
         QJsonArray koWertList;
@@ -214,9 +215,9 @@ std::unique_ptr<UpdateTimeAssignmentReply> ZeiterfassungApi::doUpdateTimeAssignm
     QJsonObject obj;
     obj[QStringLiteral("bookingNr")] = timeAssignmentId;
     obj[QStringLiteral("persNr")] = userId;
-    obj[QStringLiteral("bookingDate")] = date.toString(QStringLiteral("yyyyMMdd")).toInt();
-    obj[QStringLiteral("bookingTime")] = time.toString(QStringLiteral("Hmmss")).toInt();
-    obj[QStringLiteral("bookingTimespan")] = timespan.toString(QStringLiteral("Hmmss")).toInt();
+    obj[QStringLiteral("bookingDate")] = formatDate(date).toInt();
+    obj[QStringLiteral("bookingTime")] = formatTime(time).toInt();
+    obj[QStringLiteral("bookingTimespan")] = formatTime(timespan).toInt();
     obj[QStringLiteral("bookingType")] = QJsonValue::Null;
     obj[QStringLiteral("hourCategory")] = QJsonValue::Null;
     obj[QStringLiteral("bewEinh")] = QJsonValue::Null;
@@ -263,7 +264,7 @@ std::unique_ptr<GetProjectsReply> ZeiterfassungApi::doGetProjects(int userId, co
     QNetworkRequest request(QUrl(QStringLiteral("%0json/combobox?persnr=%1&date=%2&dqkey=KOST&kowert0=&kowert1=&kowert2=&term=")
                                  .arg(m_url.toString())
                                  .arg(userId)
-                                 .arg(date.toString(QStringLiteral("yyyyMMdd")))));
+                                 .arg(formatDate(date))));
     request.setRawHeader(QByteArrayLiteral("sisAppName"), QByteArrayLiteral("bookingCalendar"));
 
     return std::make_unique<GetProjectsReply>(std::unique_ptr<QNetworkReply>(m_manager->get(request)), this);
@@ -274,7 +275,7 @@ std::unique_ptr<GetReportReply> ZeiterfassungApi::doGetReport(int userId, const 
     QNetworkRequest request(QUrl(QStringLiteral("%0json/auswertung/month?persNr=%1&date=%2")
                                  .arg(m_url.toString())
                                  .arg(userId)
-                                 .arg(date.toString(QStringLiteral("yyyyMMdd")))));
+                                 .arg(formatDate(date))));
     request.setRawHeader(QByteArrayLiteral("sisAppName"), QByteArrayLiteral("bookingCalendar"));
 
     return std::make_unique<GetReportReply>(std::unique_ptr<QNetworkReply>(m_manager->get(request)), this);
@@ -292,10 +293,32 @@ std::unique_ptr<GetAbsencesReply> ZeiterfassungApi::doGetAbsences(int userId, co
 {
     QNetworkRequest request(QUrl(QStringLiteral("%0json/fulldayAbsences?start=%1&end=%2&pnrLst=%3")
                                  .arg(m_url.toString())
-                                 .arg(start.toString(QStringLiteral("yyyyMMdd")))
-                                 .arg(end.toString(QStringLiteral("yyyyMMdd")))
+                                 .arg(formatDate(start))
+                                 .arg(formatDate(end))
                                  .arg(userId)));
     request.setRawHeader(QByteArrayLiteral("sisAppName"), QByteArrayLiteral("bookingCalendar"));
 
     return std::make_unique<GetAbsencesReply>(std::unique_ptr<QNetworkReply>(m_manager->get(request)), this);
+}
+
+std::unique_ptr<GetDayinfoReply> ZeiterfassungApi::doGetDayinfo(int userId, const QDate &start, const QDate &end)
+{
+    QNetworkRequest request(QUrl(QStringLiteral("%0json/dayinfo?start=%1&end=%2&pnrLst=%3")
+                                 .arg(m_url.toString())
+                                 .arg(formatDate(start))
+                                 .arg(formatDate(end))
+                                 .arg(userId)));
+    request.setRawHeader(QByteArrayLiteral("sisAppName"), QByteArrayLiteral("bookingCalendar"));
+
+    return std::make_unique<GetDayinfoReply>(std::unique_ptr<QNetworkReply>(m_manager->get(request)), this);
+}
+
+QString ZeiterfassungApi::formatDate(const QDate &date)
+{
+    return date.toString(QStringLiteral("yyyyMMdd"));
+}
+
+QString ZeiterfassungApi::formatTime(const QTime &time)
+{
+    return time.toString(QStringLiteral("Hmmss"));
 }

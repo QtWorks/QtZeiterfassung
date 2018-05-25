@@ -59,12 +59,12 @@ void GetAbsencesReply::requestFinished()
             m_absences.append({
                 obj.value(QStringLiteral("altRepresentative")).toInt(),
                 obj.value(QStringLiteral("compositeId")).toString(),
-                QDate::fromString(QString::number(obj.value(QStringLiteral("end")).toInt()), QStringLiteral("yyyyMMdd")),
+                parseDate(obj.value(QStringLiteral("end"))),
                 obj.value(QStringLiteral("hourCategory")).toString(),
                 obj.value(QStringLiteral("openMarking")).toString(),
                 obj.value(QStringLiteral("persNr")).toInt(),
                 obj.value(QStringLiteral("representative")).toInt(),
-                QDate::fromString(QString::number(obj.value(QStringLiteral("start")).toInt()), QStringLiteral("yyyyMMdd")),
+                parseDate(obj.value(QStringLiteral("start"))),
                 obj.value(QStringLiteral("text")).toString()
             });
         }

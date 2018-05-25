@@ -150,8 +150,8 @@ void GetUserInfoReply::request1Finished()
 
         m_userInfo.street = obj.value(QStringLiteral("gemeinde")).toString();
         m_userInfo.city = obj.value(QStringLiteral("ort")).toString();
-        m_userInfo.employedSince = QDate::fromString(QString::number(obj.value(QStringLiteral("angFrom")).toInt()), QStringLiteral("yyyyMMdd"));
-        m_userInfo.employedTill = QDate::fromString(QString::number(obj.value(QStringLiteral("angTill")).toInt()), QStringLiteral("yyyyMMdd"));
+        m_userInfo.employedSince = parseDate(obj.value(QStringLiteral("angFrom")));
+        m_userInfo.employedTill = parseDate(obj.value(QStringLiteral("angTill")));
         m_userInfo.placeOfBirth = obj.value(QStringLiteral("gebOrt")).toString();
         m_userInfo.zipcode = obj.value(QStringLiteral("plz")).toString();
         m_userInfo.religion = obj.value(QStringLiteral("religion")).toString();
