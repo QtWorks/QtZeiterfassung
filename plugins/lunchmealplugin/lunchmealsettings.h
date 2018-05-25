@@ -16,12 +16,14 @@ public:
 
     // no QString becuase placeholder %0 encodes wrong in urls!
     QString url() const;
-    void setUrl(const QString &url);
+    bool setUrl(const QString &url);
 
     QString dateFormat() const;
-    void setDateFormat(const QString &dateFormat);
+    bool setDateFormat(const QString &dateFormat);
 
 Q_SIGNALS:
+    void saveErrorOccured();
+
     void urlChanged(const QString &url);
     void dateFormatChanged(const QString &dateFormat);
 

@@ -33,37 +33,39 @@ public:
     explicit ZeiterfassungSettings(QObject *parent = Q_NULLPTR);
 
     QLocale::Language language() const;
-    void setLanguage(QLocale::Language language);
+    bool setLanguage(QLocale::Language language);
 
     QUrl url() const;
-    void setUrl(const QUrl &url);
+    bool setUrl(const QUrl &url);
 
     QString username() const;
-    void setUsername(const QString &username);
+    bool setUsername(const QString &username);
 
     QString password() const;
-    void setPassword(const QString &password);
+    bool setPassword(const QString &password);
 
     QStringList projects() const;
-    void setProjects(const QStringList &projects);
-    void prependProject(const QString &project);
+    bool setProjects(const QStringList &projects);
+    bool prependProject(const QString &project);
 
     QStringList subprojects() const;
-    void setSubprojects(const QStringList &subprojects);
-    void prependSubproject(const QString &subproject);
+    bool setSubprojects(const QStringList &subprojects);
+    bool prependSubproject(const QString &subproject);
 
     QStringList workpackages() const;
-    void setWorkpackages(const QStringList &workpackages);
-    void prependWorkpackage(const QString &workpackage);
+    bool setWorkpackages(const QStringList &workpackages);
+    bool prependWorkpackage(const QString &workpackage);
 
     QStringList texts() const;
-    void setTexts(const QStringList &texts);
-    void prependText(const QString &text);
+    bool setTexts(const QStringList &texts);
+    bool prependText(const QString &text);
 
     QString theme() const;
-    void setTheme(const QString &theme);
+    bool setTheme(const QString &theme);
 
 Q_SIGNALS:
+    void saveErrorOccured();
+
     void languageChanged(QLocale::Language language);
     void urlChanged(const QUrl &url);
     void usernameChanged(const QString &username);

@@ -18,13 +18,7 @@ PresenceSettingsWidget::PresenceSettingsWidget(ZeiterfassungSettings &settings, 
     setLayout(layout);
 }
 
-bool PresenceSettingsWidget::isValid(QString &message) const
+bool PresenceSettingsWidget::apply()
 {
-    Q_UNUSED(message)
-    return true;
-}
-
-void PresenceSettingsWidget::apply()
-{
-    m_settings.setInterval(m_spinBox->value());
+    return m_settings.setInterval(m_spinBox->value());
 }

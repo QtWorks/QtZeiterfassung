@@ -26,7 +26,7 @@ bool WeatherSettingsWidget::isValid(QString &message) const
     return valid;
 }
 
-void WeatherSettingsWidget::apply()
+bool WeatherSettingsWidget::apply()
 {
-    m_settings.setUrl(QUrl::fromUserInput(m_lineEdit->text()));
+    return m_settings.setUrl(QUrl::fromUserInput(m_lineEdit->text()));
 }

@@ -13,10 +13,8 @@ class PresenceSettingsWidget : public SettingsWidget
 public:
     explicit PresenceSettingsWidget(ZeiterfassungSettings &settings, QWidget *parent = Q_NULLPTR);
 
-    virtual bool isValid(QString &message) const Q_DECL_OVERRIDE;
-
 public Q_SLOTS:
-    virtual void apply() Q_DECL_OVERRIDE;
+    virtual bool apply() Q_DECL_OVERRIDE;
 
 private:
     PresenceSettings m_settings;

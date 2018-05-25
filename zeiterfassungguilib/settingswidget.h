@@ -15,5 +15,5 @@ public:
     virtual bool isValid(QString &message) const { Q_UNUSED(message) return true; }
 
 public Q_SLOTS:
-    virtual void apply() { }
+    virtual bool apply() = 0;
 };

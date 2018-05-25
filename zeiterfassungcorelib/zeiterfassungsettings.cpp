@@ -1,5 +1,7 @@
 #include "zeiterfassungsettings.h"
 
+#include <QDebug>
+
 const QString ZeiterfassungSettings::m_language("language");
 const QString ZeiterfassungSettings::m_url("url");
 const QString ZeiterfassungSettings::m_username("username");
@@ -48,16 +50,25 @@ QLocale::Language ZeiterfassungSettings::language() const
     return value(m_language, m_defaultLanguage).value<QLocale::Language>();
 }
 
-void ZeiterfassungSettings::setLanguage(QLocale::Language language)
+bool ZeiterfassungSettings::setLanguage(QLocale::Language language)
 {
-    if(this->language() != language)
-    {
-        if(m_defaultLanguage == language)
-            remove(m_language);
-        else
-            setValue(m_language, language);
+    if(this->language() == language)
+        return true;
+
+    if(m_defaultLanguage == language)
+        remove(m_language);
+    else
+        setValue(m_language, language);
+
+    sync();
+
+    const auto success = status() == QSettings::NoError;
+    if(success)
         Q_EMIT languageChanged(language);
-    }
+    else
+        Q_EMIT saveErrorOccured();
+
+    return success;
 }
 
 QUrl ZeiterfassungSettings::url() const
@@ -65,16 +76,25 @@ QUrl ZeiterfassungSettings::url() const
     return value(m_url, m_defaultUrl).toUrl();
 }
 
-void ZeiterfassungSettings::setUrl(const QUrl &url)
+bool ZeiterfassungSettings::setUrl(const QUrl &url)
 {
-    if(this->url() != url)
-    {
-        if(m_defaultUrl == url)
-            remove(m_url);
-        else
-            setValue(m_url, url);
+    if(this->url() == url)
+        return true;
+
+    if(m_defaultUrl == url)
+        remove(m_url);
+    else
+        setValue(m_url, url);
+
+    sync();
+
+    const auto success = status() == QSettings::NoError;
+    if(success)
         Q_EMIT urlChanged(url);
-    }
+    else
+        Q_EMIT saveErrorOccured();
+
+    return success;
 }
 
 QString ZeiterfassungSettings::username() const
@@ -82,16 +102,25 @@ QString ZeiterfassungSettings::username() const
     return value(m_username).toString();
 }
 
-void ZeiterfassungSettings::setUsername(const QString &username)
+bool ZeiterfassungSettings::setUsername(const QString &username)
 {
-    if(this->username() != username)
-    {
-        if(username.isEmpty())
-            remove(m_username);
-        else
-            setValue(m_username, username);
+    if(this->username() == username)
+        return true;
+
+    if(username.isEmpty())
+        remove(m_username);
+    else
+        setValue(m_username, username);
+
+    sync();
+
+    const auto success = status() == QSettings::NoError;
+    if(success)
         Q_EMIT usernameChanged(username);
-    }
+    else
+        Q_EMIT saveErrorOccured();
+
+    return success;
 }
 
 QString ZeiterfassungSettings::password() const
@@ -99,16 +128,25 @@ QString ZeiterfassungSettings::password() const
     return value(m_password).toString();
 }
 
-void ZeiterfassungSettings::setPassword(const QString &password)
+bool ZeiterfassungSettings::setPassword(const QString &password)
 {
-    if(this->password() != password)
-    {
-        if(password.isEmpty())
-            remove(m_password);
-        else
-            setValue(m_password, password);
+    if(this->password() == password)
+        return true;
+
+    if(password.isEmpty())
+        remove(m_password);
+    else
+        setValue(m_password, password);
+
+    sync();
+
+    const auto success = status() == QSettings::NoError;
+    if(success)
         Q_EMIT passwordChanged(password);
-    }
+    else
+        Q_EMIT saveErrorOccured();
+
+    return success;
 }
 
 QStringList ZeiterfassungSettings::projects() const
@@ -116,21 +154,30 @@ QStringList ZeiterfassungSettings::projects() const
     return value(m_projects).toStringList();
 }
 
-void ZeiterfassungSettings::setProjects(const QStringList &projects)
+bool ZeiterfassungSettings::setProjects(const QStringList &projects)
 {
-    if(this->projects() != projects)
-    {
-        if(projects.isEmpty())
-            remove(m_projects);
-        else
-            setValue(m_projects, projects);
+    if(this->projects() == projects)
+        return true;
+
+    if(projects.isEmpty())
+        remove(m_projects);
+    else
+        setValue(m_projects, projects);
+
+    sync();
+
+    const auto success = status() == QSettings::NoError;
+    if(success)
         Q_EMIT projectsChanged(projects);
-    }
+    else
+        Q_EMIT saveErrorOccured();
+
+    return success;
 }
 
-void ZeiterfassungSettings::prependProject(const QString &project)
+bool ZeiterfassungSettings::prependProject(const QString &project)
 {
-    setProjects(prependItem(projects(), project));
+    return setProjects(prependItem(projects(), project));
 }
 
 QStringList ZeiterfassungSettings::subprojects() const
@@ -138,21 +185,30 @@ QStringList ZeiterfassungSettings::subprojects() const
     return value(m_subprojects).toStringList();
 }
 
-void ZeiterfassungSettings::setSubprojects(const QStringList &subprojects)
+bool ZeiterfassungSettings::setSubprojects(const QStringList &subprojects)
 {
-    if(this->subprojects() != subprojects)
-    {
-        if(subprojects.isEmpty())
-            remove(m_subprojects);
-        else
-            setValue(m_subprojects, subprojects);
+    if(this->subprojects() == subprojects)
+        return true;
+
+    if(subprojects.isEmpty())
+        remove(m_subprojects);
+    else
+        setValue(m_subprojects, subprojects);
+
+    sync();
+
+    const auto success = status() == QSettings::NoError;
+    if(success)
         Q_EMIT subprojectsChanged(subprojects);
-    }
+    else
+        Q_EMIT saveErrorOccured();
+
+    return success;
 }
 
-void ZeiterfassungSettings::prependSubproject(const QString &subproject)
+bool ZeiterfassungSettings::prependSubproject(const QString &subproject)
 {
-    setSubprojects(prependItem(subprojects(), subproject));
+    return setSubprojects(prependItem(subprojects(), subproject));
 }
 
 QStringList ZeiterfassungSettings::workpackages() const
@@ -160,21 +216,30 @@ QStringList ZeiterfassungSettings::workpackages() const
     return value(m_workpackages).toStringList();
 }
 
-void ZeiterfassungSettings::setWorkpackages(const QStringList &workpackages)
+bool ZeiterfassungSettings::setWorkpackages(const QStringList &workpackages)
 {
-    if(this->workpackages() != workpackages)
-    {
-        if(workpackages.isEmpty())
-            remove(m_workpackages);
-        else
-            setValue(m_workpackages, workpackages);
+    if(this->workpackages() == workpackages)
+        return true;
+
+    if(workpackages.isEmpty())
+        remove(m_workpackages);
+    else
+        setValue(m_workpackages, workpackages);
+
+    sync();
+
+    const auto success = status() == QSettings::NoError;
+    if(success)
         Q_EMIT workpackagesChanged(workpackages);
-    }
+    else
+        Q_EMIT saveErrorOccured();
+
+    return success;
 }
 
-void ZeiterfassungSettings::prependWorkpackage(const QString &workpackage)
+bool ZeiterfassungSettings::prependWorkpackage(const QString &workpackage)
 {
-    setWorkpackages(prependItem(workpackages(), workpackage));
+    return setWorkpackages(prependItem(workpackages(), workpackage));
 }
 
 QStringList ZeiterfassungSettings::texts() const
@@ -182,21 +247,30 @@ QStringList ZeiterfassungSettings::texts() const
     return value(m_texts).toStringList();
 }
 
-void ZeiterfassungSettings::setTexts(const QStringList &texts)
+bool ZeiterfassungSettings::setTexts(const QStringList &texts)
 {
-    if(this->texts() != texts)
-    {
-        if(m_texts.isEmpty())
-            remove(m_texts);
-        else
-            setValue(m_texts, texts);
+    if(this->texts() == texts)
+        return true;
+
+    if(m_texts.isEmpty())
+        remove(m_texts);
+    else
+        setValue(m_texts, texts);
+
+    sync();
+
+    const auto success = status() == QSettings::NoError;
+    if(success)
         Q_EMIT textsChanged(texts);
-    }
+    else
+        Q_EMIT saveErrorOccured();
+
+    return success;
 }
 
-void ZeiterfassungSettings::prependText(const QString &text)
+bool ZeiterfassungSettings::prependText(const QString &text)
 {
-    setTexts(prependItem(texts(), text));
+    return setTexts(prependItem(texts(), text));
 }
 
 QString ZeiterfassungSettings::theme() const
@@ -204,16 +278,25 @@ QString ZeiterfassungSettings::theme() const
     return value(m_theme).toString();
 }
 
-void ZeiterfassungSettings::setTheme(const QString &theme)
+bool ZeiterfassungSettings::setTheme(const QString &theme)
 {
-    if(this->theme() != theme)
-    {
-        if(theme.isEmpty())
-            remove(m_theme);
-        else
-            setValue(m_theme, theme);
+    if(this->theme() == theme)
+        return true;
+
+    if(theme.isEmpty())
+        remove(m_theme);
+    else
+        setValue(m_theme, theme);
+
+    sync();
+
+    const auto success = status() == QSettings::NoError;
+    if(success)
         Q_EMIT themeChanged(theme);
-    }
+    else
+        Q_EMIT saveErrorOccured();
+
+    return success;
 }
 
 QStringList ZeiterfassungSettings::prependItem(QStringList list, const QString &item)

@@ -19,13 +19,28 @@ QString LunchMealSettings::url() const
     return m_settings.value(m_url, m_defaultUrl).toString();
 }
 
-void LunchMealSettings::setUrl(const QString &url)
+bool LunchMealSettings::setUrl(const QString &url)
 {
-    if(this->url() != url)
-    {
-        m_settings.setValue(QStringLiteral("LunchMealPlugin/url"), url);
+    if(this->url() == url)
+        return true;
+
+    if(url == m_defaultUrl)
+        m_settings.remove(m_url);
+    else
+        m_settings.setValue(m_url, url);
+
+    m_settings.sync();
+
+    const auto success = m_settings.status() == QSettings::NoError;
+    if(success)
         Q_EMIT urlChanged(url);
+    else
+    {
+        Q_EMIT m_settings.saveErrorOccured();
+        Q_EMIT saveErrorOccured();
     }
+
+    return success;
 }
 
 QString LunchMealSettings::dateFormat() const
@@ -33,11 +48,26 @@ QString LunchMealSettings::dateFormat() const
     return m_settings.value(m_dateFormat, m_defaultDateFormat).toString();
 }
 
-void LunchMealSettings::setDateFormat(const QString &dateFormat)
+bool LunchMealSettings::setDateFormat(const QString &dateFormat)
 {
-    if(this->dateFormat() != dateFormat)
-    {
-        m_settings.setValue(QStringLiteral("LunchMealPlugin/dateFormat"), dateFormat);
+    if(this->dateFormat() == dateFormat)
+        return true;
+
+    if(dateFormat == m_defaultDateFormat)
+        m_settings.remove(m_dateFormat);
+    else
+        m_settings.setValue(m_dateFormat, dateFormat);
+
+    m_settings.sync();
+
+    const auto success = m_settings.status() == QSettings::NoError;
+    if(success)
         Q_EMIT dateFormatChanged(dateFormat);
+    else
+    {
+        Q_EMIT m_settings.saveErrorOccured();
+        Q_EMIT saveErrorOccured();
     }
+
+    return success;
 }

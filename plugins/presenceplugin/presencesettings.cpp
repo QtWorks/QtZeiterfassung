@@ -17,11 +17,26 @@ int PresenceSettings::interval() const
     return m_settings.value(m_interval, m_defaultInterval).toInt();
 }
 
-void PresenceSettings::setInterval(int interval)
+bool PresenceSettings::setInterval(int interval)
 {
-    if(this->interval() != interval)
-    {
+    if(this->interval() == interval)
+        return true;
+
+    if(interval == m_defaultInterval)
+        m_settings.remove(m_interval);
+    else
         m_settings.setValue(m_interval, interval);
+
+    m_settings.sync();
+
+    const auto success = m_settings.status() == QSettings::NoError;
+    if(success)
         Q_EMIT intervalChanged(interval);
+    else
+    {
+        Q_EMIT m_settings.saveErrorOccured();
+        Q_EMIT saveErrorOccured();
     }
+
+    return success;
 }

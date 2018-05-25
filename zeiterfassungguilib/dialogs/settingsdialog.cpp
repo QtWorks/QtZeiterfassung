@@ -82,7 +82,12 @@ void SettingsDialog::submit()
 
     if(ui->comboBoxLanguage->currentData().value<QLocale::Language>() != m_settings.language())
     {
-        m_settings.setLanguage(ui->comboBoxLanguage->currentData().value<QLocale::Language>());
+        if(!m_settings.setLanguage(ui->comboBoxLanguage->currentData().value<QLocale::Language>()))
+        {
+            errorOccured();
+            return;
+        }
+
         //TODO #73 Allow changing of the language without restart
         QMessageBox::information(this, tr("Restart required!"), tr("To apply the new settings a restart is required!"));
     }
@@ -90,9 +95,8 @@ void SettingsDialog::submit()
     auto theme = ui->comboBoxTheme->currentData().toString();
     if(theme != m_settings.theme())
     {
-        if(theme.isEmpty())
-            qApp->setStyleSheet(QString());
-        else
+        QString styleSheet;
+        if(!theme.isEmpty())
         {
             auto themePath = QDir(QDir(QCoreApplication::applicationDirPath()).absoluteFilePath(QStringLiteral("themes"))).absoluteFilePath(theme);
 
@@ -111,14 +115,31 @@ void SettingsDialog::submit()
             }
 
             QTextStream textStream(&file);
-            qApp->setStyleSheet(textStream.readAll().replace(QStringLiteral("@THEME_RESOURCES@"), themePath));
+            styleSheet = textStream.readAll().replace(QStringLiteral("@THEME_RESOURCES@"), themePath);
         }
 
-        m_settings.setTheme(theme);
+        if(!m_settings.setTheme(theme))
+        {
+            errorOccured();
+            return;
+        }
+
+        qApp->setStyleSheet(styleSheet);
     }
 
     for(const auto widget : m_settingsWidgets)
-        widget->apply();
+    {
+        if(!widget->apply())
+        {
+            errorOccured();
+            return;
+        }
+    }
 
     accept();
+}
+
+void SettingsDialog::errorOccured()
+{
+    QMessageBox::warning(this, tr("Could not save settings!"), tr("Could not load settings!") % "\n\n" % tr("Make sure you have writing permissions!"));
 }
