@@ -17,7 +17,6 @@ void DeleteBookingReply::requestFinished()
     }
 
     //should be empty, so nothing to check...
-
     setSuccess(true);
 
     end:

@@ -11,6 +11,7 @@ DEFINES += ZEITERFASSUNGCORELIB_LIBRARY
 SOURCES += timeutils.cpp \
            zeiterfassungapi.cpp \
            zeiterfassungsettings.cpp \
+           replies/createabsencereply.cpp \
            replies/createbookingreply.cpp \
            replies/createtimeassignmentreply.cpp \
            replies/deletebookingreply.cpp \
@@ -34,6 +35,7 @@ HEADERS += cpp14polyfills.h \
            zeiterfassungapi.h \
            zeiterfassungcorelib_global.h \
            zeiterfassungsettings.h \
+           replies/createabsencereply.h \
            replies/createbookingreply.h \
            replies/createtimeassignmentreply.h \
            replies/deletebookingreply.h \

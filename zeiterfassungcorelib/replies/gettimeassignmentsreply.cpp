@@ -1,6 +1,5 @@
 #include "gettimeassignmentsreply.h"
 
-#include <QNetworkReply>
 #include <QJsonParseError>
 #include <QJsonDocument>
 #include <QJsonArray>

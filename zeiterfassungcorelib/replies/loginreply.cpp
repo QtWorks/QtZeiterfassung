@@ -1,7 +1,5 @@
 #include "loginreply.h"
 
-#include <QNetworkReply>
-
 LoginReply::LoginReply(std::unique_ptr<QNetworkReply> &&reply, ZeiterfassungApi *zeiterfassung) :
     ZeiterfassungReply(zeiterfassung),
     m_reply(std::move(reply))
