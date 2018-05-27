@@ -2,6 +2,7 @@
 #include "ui_absencedialog.h"
 
 #include <QDate>
+#include <QLocale>
 #include <QMessageBox>
 #include <QStringBuilder>
 #include <QMenu>
@@ -15,7 +16,7 @@ AbsenceDialog::AbsenceDialog(int userId, const QDate &date, ZeiterfassungApi &er
 {
     ui->setupUi(this);
 
-    ui->labelTitle->setText(tr("Absences for %0").arg(date.toString(tr("dd.MM.yyyy"))));
+    ui->labelTitle->setText(tr("Absences for %0").arg(QLocale().toString(date)));
 
     m_model = new AbsencesModel(userId, date, erfassung, this);
     connect(m_model, &AbsencesModel::errorOccured, this, &AbsenceDialog::errorOccured);

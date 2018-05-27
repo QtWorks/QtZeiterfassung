@@ -1,6 +1,7 @@
 #include "stripswidget.h"
 
 #include <QVBoxLayout>
+#include <QLocale>
 #include <QVector>
 #include <QLabel>
 #include <QMap>
@@ -11,9 +12,6 @@
 #include "zeiterfassungapi.h"
 #include "timeutils.h"
 #include "stripfactory.h"
-
-const QStringList StripsWidget::m_weekDays { tr("Monday"), tr("Tuesday"),
-    tr("Wednesday"), tr("Thursday"), tr("Friday"), tr("Saturday"), tr("Sunday") };
 
 StripsWidget::StripsWidget(MainWindow &mainWindow, QWidget *parent) :
     QFrame(parent),
@@ -87,9 +85,7 @@ void StripsWidget::setDate(const QDate &date)
         Q_EMIT dateChanged(m_date = date);
 
         if(m_date.isValid())
-            m_label[0]->setText(tr("%0 (%1)")
-                             .arg(m_weekDays.at(m_date.dayOfWeek() - 1))
-                             .arg(m_date.toString(tr("dd.MM.yyyy"))));
+            m_label[0]->setText(QLocale().toString(m_date, QLocale::LongFormat));
         else
             m_label[0]->setText(tr("Invalid"));
 
@@ -313,7 +309,7 @@ bool StripsWidget::createStrips()
         if(lastBooking)
         {
             auto breakTime = timeBetween(lastBooking->time, startBooking.time);
-            auto label = new QLabel(tr("%0: %1").arg(tr("Break")).arg(tr("%0h").arg(breakTime.toString(tr("HH:mm")))), this);
+            auto label = new QLabel(tr("%0: %1").arg(tr("Break")).arg(tr("%0h").arg(QLocale().toString(breakTime, QLocale::ShortFormat))), this);
             m_stripsLayout->addWidget(label);
         }
 
@@ -420,7 +416,7 @@ bool StripsWidget::createStrips()
                     if(timeAssignmentsIter == m_timeAssignments.constEnd())
                     {
                         errorMessage = tr("Missing time assignment! Missing: %0")
-                                .arg(tr("%0h").arg(timeBetween(timeAssignmentTime, bookingTimespan).toString(tr("HH:mm:ss"))));
+                                .arg(tr("%0h").arg(QLocale().toString(timeBetween(timeAssignmentTime, bookingTimespan), QLocale::ShortFormat)));
 
                         appendBookingEndStrip(endBooking.id, endBooking.time, currBookingDuration);
 
@@ -464,8 +460,8 @@ bool StripsWidget::createStrips()
                 if(timeAssignmentTime > bookingTimespan)
                 {
                     errorMessage = tr("Time assignment time longer than booking time!\nTime assignment: %0\nBooking: %1")
-                            .arg(timeAssignmentTime.toString(tr("HH:mm:ss")))
-                            .arg(bookingTimespan.toString(tr("HH:mm:ss")));
+                            .arg(QLocale().toString(timeAssignmentTime, QLocale::ShortFormat))
+                            .arg(QLocale().toString(bookingTimespan, QLocale::ShortFormat));
                 }
 
                 appendBookingEndStrip(endBooking.id, endBooking.time, currBookingDuration);
@@ -483,7 +479,7 @@ bool StripsWidget::createStrips()
     {
         auto label = new QLabel(tr("%0: %1")
                                 .arg(tr("Assigned time"))
-                                .arg(tr("%0h").arg(timeAssignmentTime.toString(tr("HH:mm")))), this);
+                                .arg(tr("%0h").arg(QLocale().toString(timeAssignmentTime, QLocale::ShortFormat))), this);
         m_stripsLayout->addWidget(label);
     }
     else
@@ -532,7 +528,8 @@ void StripsWidget::getDayinfoFinished()
 {
     Q_EMIT dayinfoChanged(m_dayinfo = m_getDayinfoReply->dayinfos().first());
 
-    m_label[1]->setText(QString("%0 - %1").arg(m_dayinfo.soll.toString("HH:mm")).arg(m_dayinfo.ist.toString("HH:mm")));
+    m_label[1]->setText(QString("%0 - %1").arg(QLocale().toString(m_dayinfo.soll, QLocale::ShortFormat),
+                                               QLocale().toString(m_dayinfo.ist, QLocale::ShortFormat)));
 }
 
 void StripsWidget::getBookingsFinished()
@@ -601,7 +598,7 @@ QWidget *StripsWidget::appendBookingStartStrip(int id, const QTime &time)
     auto widget = m_mainWindow.stripFactory().createBookingStartStrip(this).release();
 
     if(auto labelTime = widget->findChild<QWidget*>(QStringLiteral("labelTime")))
-        labelTime->setProperty("text", time.toString(tr("HH:mm")));
+        labelTime->setProperty("text", QLocale().toString(time, QLocale::ShortFormat));
     else
         qWarning() << "no labelTime found!";
 
@@ -620,12 +617,12 @@ QWidget *StripsWidget::appendBookingEndStrip(int id, const QTime &time, const QT
     auto widget = m_mainWindow.stripFactory().createBookingEndStrip(this).release();
 
     if(auto labelTime = widget->findChild<QWidget*>(QStringLiteral("labelTime")))
-        labelTime->setProperty("text", time.toString(tr("HH:mm")));
+        labelTime->setProperty("text", QLocale().toString(time, QLocale::ShortFormat));
     else
         qWarning() << "no labelTime found!";
 
     if(auto labelDuration = widget->findChild<QWidget*>(QStringLiteral("labelDuration")))
-        labelDuration->setProperty("text", tr("%0h").arg(duration.toString(tr("HH:mm"))));
+        labelDuration->setProperty("text", tr("%0h").arg(QLocale().toString(duration, QLocale::ShortFormat)));
     else
         qWarning() << "no labelDuration found!";
 
@@ -644,7 +641,7 @@ QWidget *StripsWidget::appendTimeAssignmentStrip(int id, const QTime &duration, 
     auto widget = m_mainWindow.stripFactory().createTimeAssignmentStrip(this).release();
 
     if(auto labelTime = widget->findChild<QWidget*>(QStringLiteral("labelTime")))
-        labelTime->setProperty("text", duration == QTime(0, 0) ? tr("Open") : duration.toString(tr("HH:mm")));
+        labelTime->setProperty("text", duration == QTime(0, 0) ? tr("Open") : QLocale().toString(duration, QLocale::ShortFormat));
     else
         qWarning() << "no labelTime found!";
 

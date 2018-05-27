@@ -117,6 +117,4 @@ private:
     std::unique_ptr<GetDayinfoReply> m_getDayinfoReply;
     std::unique_ptr<GetBookingsReply> m_getBookingsReply;
     std::unique_ptr<GetTimeAssignmentsReply> m_getTimeAssignmentsReply;
-
-    static const QStringList m_weekDays;
 };

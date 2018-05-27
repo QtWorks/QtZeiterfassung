@@ -14,8 +14,8 @@ ProfileDialog::ProfileDialog(const GetUserInfoReply::UserInfo &userInfo, QWidget
     ui->lineEditUsername->setText(userInfo.username);
     ui->lineEditStreet->setText(userInfo.street);
     ui->lineEditCity->setText(userInfo.city);
-    ui->lineEditEmployedSince->setText(userInfo.employedSince.toString(tr("dd.MM.yyyy")));
-    ui->lineEditEmployedTill->setText(userInfo.employedTill.toString(tr("dd.MM.yyyy")));
+    ui->dateEditEmployedSince->setDate(userInfo.employedSince);
+    ui->dateEditEmployedTill->setDate(userInfo.employedTill);
     ui->lineEditPlaceOfBirth->setText(userInfo.placeOfBirth);
     ui->lineEditZipcode->setText(userInfo.zipcode);
     ui->lineEditReligion->setText(userInfo.religion);
