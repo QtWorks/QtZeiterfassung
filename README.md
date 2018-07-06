@@ -1,6 +1,7 @@
 # Zeiterfassung
 This tool helps me assigning my working hours to projects at work.
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/57dffc1fba4345a9a638695d620f1489)](https://app.codacy.com/app/0xFEEDC0DE64/QtZeiterfassung?utm_source=github.com&utm_medium=referral&utm_content=0xFEEDC0DE64/QtZeiterfassung&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/0xFEEDC0DE64/QtZeiterfassung.svg?branch=master)](https://travis-ci.org/0xFEEDC0DE64/QtZeiterfassung)
 
 ![Screenshot of the main window](https://raw.githubusercontent.com/0xFEEDC0DE64/QtZeiterfassung/master/screenshot.png)
